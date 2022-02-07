@@ -90,6 +90,7 @@ export default function EditProfile({ match }) {
       name: values.name,
       email: values.email,
       password: values.password,
+      about: values.about,
     };
     update({ userId: match.params.userId }, { t: jwt.token }, user).then(
       (data) => {

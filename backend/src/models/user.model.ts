@@ -8,6 +8,7 @@ interface IUser {
   updated: Number;
   created: Date;
   about: string;
+  photo: Buffer;
 }
 
 interface InstanceMethods {
@@ -36,6 +37,7 @@ const UserSchema = new Schema<IUserDoc>({
   hashed_password: { type: String, required: [true, "Password is required"] },
   salt: String,
   about: { type: String, trim: true },
+  photo: { data: Buffer, contentType: String },
 });
 
 UserSchema.virtual("password")

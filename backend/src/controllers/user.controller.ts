@@ -24,7 +24,7 @@ const create: RequestHandler = async (req, res, next) => {
 
 const list: RequestHandler = async (_, res) => {
   try {
-    const users = await User.find().select("name email updated created"); // find all users, and only select the name, email, updated and created fields, this filter also will be applied when retrieving a single user by id
+    const users = await User.find().select("name email updated created about"); // find all users, and only select the name, email, updated and created fields, this filter also will be applied when retrieving a single user by id
     return res.json(users);
   } catch (error) {
     return res.status(400).json({
@@ -74,7 +74,7 @@ const update = async (req: RequestWithProfile, res: Response) => {
     const { body } = req; // get the body from the request object
     // update the user with the new values
     extend(user, body); // extend the user with the new values, if a value in body already exists, it will be overwritten in the user object
-    // console.log(req.body);
+    console.log(req.body);
     // user = Object.assign(user, body); // assign the new values to the user object
     // console.log(user);
 
