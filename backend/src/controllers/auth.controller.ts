@@ -4,8 +4,7 @@ import jwt from "jsonwebtoken";
 import expressJwt from "express-jwt";
 import { RequestWithProfile, RequestWithAuth } from "../types";
 import config from "../config/config";
-const { jwtSecret } = config;
-require("dotenv").config();
+
 const signin: RequestHandler = async (req, res) => {
   try {
     const { email, password, _id, name } = req.body; // destructuring the email and password from the request body
@@ -16,7 +15,7 @@ const signin: RequestHandler = async (req, res) => {
       // if tpassword dont match
       return res.status(401).json({ error: "Email and password don't match" });
 
-    const token = jwt.sign({ _id }, jwtSecret); // create a token with the user id and the secret
+    const token = jwt.sign({ _id }, config.jwtSecret); // create a token with the user id and the secret
 
     res.cookie("t", token, { expires: new Date(Date.now() + 9999) }); // set a cookie with the token for the user to use it in the client side
     user.hashed_password = undefined; // remove the password from the user object
@@ -39,7 +38,7 @@ const signout: RequestHandler = async (req, res) => {
 
 const requireSignin = expressJwt({
   algorithms: ["HS256"], // to prevent possible downgrade attacks when using third party libraries as secret
-  secret: jwtSecret, // verifis tha t the incoming request has a valid token in the authorization header
+  secret: config.jwtSecret, // verifis tha t the incoming request has a valid token in the authorization header
   userProperty: "auth", // if the token is valid, the user will be added to the request object with the user property "auth" adding the _id as the value, it is the id, because it was the value which it was used to sign the token
 });
 // const requireSignin = (
