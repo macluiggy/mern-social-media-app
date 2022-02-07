@@ -1,0 +1,149 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "frontend",
+      "version": "1.0.0",
+      "description": "Frontend for the application",
+      "main": "src/index.js",
+      "scripts": {
+        "start": "webpack serve --config ./webpack.config.js --mode development",
+        "build": "webpack --config ./webpack.config.js --mode production"
+      },
+      "keywords": [],
+      "author": "Luiggy Macias",
+      "license": "ISC",
+      "devDependencies": {
+        "@babel/core": "^7.16.5",
+        "@babel/preset-env": "^7.16.5",
+        "@babel/preset-react": "^7.16.5",
+        "babel-loader": "^8.2.3",
+        "css-loader": "^6.5.1",
+        "html-webpack-plugin": "^5.5.0",
+        "react-hot-loader": "^4.13.0",
+        "sass": "^1.45.0",
+        "sass-loader": "^12.4.0",
+        "style-loader": "^3.3.1",
+        "ts-loader": "^9.2.6",
+        "typescript": "^4.5.4",
+        "webpack": "^5.65.0",
+        "webpack-cli": "^4.9.1",
+        "webpack-dev-server": "^4.6.0"
+      },
+      "dependencies": {
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
+      }
+    },
+    "prefix": "/home/luiggy/PROGRAMMING/FULLSTACK/mern-skeleton/frontend"
+  },
+  "2 debug pnpm:context": {
+    "currentLockfileExists": false,
+    "storeDir": "/home/luiggy/.pnpm-store/v3",
+    "virtualStoreDir": "/home/luiggy/PROGRAMMING/FULLSTACK/mern-skeleton/frontend/node_modules/.pnpm"
+  },
+  "3 debug pnpm:stage": {
+    "prefix": "/home/luiggy/PROGRAMMING/FULLSTACK/mern-skeleton/frontend",
+    "stage": "resolution_started"
+  },
+  "4 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/webpack-hot-middleware/2.25.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "webpack-hot-middleware",
+      "rawSpec": "latest"
+    }
+  },
+  "5 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/webpack-hot-middleware/2.25.1",
+    "requester": "/home/luiggy/PROGRAMMING/FULLSTACK/mern-skeleton/frontend",
+    "status": "resolved"
+  },
+  "6 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/webpack-hot-middleware/2.25.1",
+    "requester": "/home/luiggy/PROGRAMMING/FULLSTACK/mern-skeleton/frontend",
+    "status": "found_in_store"
+  },
+  "7 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/sass-loader/12.4.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "sass-loader",
+      "rawSpec": "^12.4.0"
+    }
+  },
+  "8 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/sass-loader/12.4.0",
+    "requester": "/home/luiggy/PROGRAMMING/FULLSTACK/mern-skeleton/frontend",
+    "status": "resolved"
+  },
+  "9 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/babel-loader/8.2.3",
+    "wanted": {
+      "dependentId": ".",
+      "name": "babel-loader",
+      "rawSpec": "^8.2.3"
+    }
+  },
+  "10 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/babel-loader/8.2.3",
+    "requester": "/home/luiggy/PROGRAMMING/FULLSTACK/mern-skeleton/frontend",
+    "status": "resolved"
+  },
+  "11 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/babel-loader/8.2.3",
+    "requester": "/home/luiggy/PROGRAMMING/FULLSTACK/mern-skeleton/frontend",
+    "status": "found_in_store"
+  },
+  "12 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/sass-loader/12.4.0",
+    "requester": "/home/luiggy/PROGRAMMING/FULLSTACK/mern-skeleton/frontend",
+    "status": "found_in_store"
+  },
+  "13 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/webpack-dev-middleware/5.3.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "webpack-dev-middleware",
+      "rawSpec": "latest"
+    }
+  },
+  "14 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/webpack-dev-middleware/5.3.0",
+    "requester": "/home/luiggy/PROGRAMMING/FULLSTACK/mern-skeleton/frontend",
+    "status": "resolved"
+  },
+  "15 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/style-loader/3.3.1",
+    "wanted": {
+      "dependentId": ".",
+      "name": "style-loader",
+      "rawSpec": "^3.3.1"
+    }
+  },
+  "16 debug pnpm:progress": {
+    "packageId": "registry.npmjs.org/style-loader/3.3.1",
+    "requester": "/home/luiggy/PROGRAMMING/FULLSTACK/mern-skeleton/frontend",
+    "status": "resolved"
+  },
+  "17 error pnpm": {
+    "code": "ERR_PNPM_FETCH_404",
+    "hint": "file- is not in the npm registry, or you have no permission to fetch it.\n\nNo authorization header was set for the request.",
+    "request": {
+      "url": "https://registry.npmjs.org/file-"
+    },
+    "response": {
+      "size": 0
+    },
+    "pkgName": "file-",
+    "pkgsStack": [],
+    "err": {
+      "name": "pnpm",
+      "message": "GET https://registry.npmjs.org/file-: Not Found - 404",
+      "code": "ERR_PNPM_FETCH_404",
+      "stack": "pnpm: GET https://registry.npmjs.org/file-: Not Found - 404\n    at RetryOperation._fn (/home/luiggy/.nvm/versions/node/v16.13.1/pnpm-global/5/node_modules/.pnpm/pnpm@6.26.0/node_modules/pnpm/dist/pnpm.cjs:85453:19)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)"
+    }
+  }
+}
