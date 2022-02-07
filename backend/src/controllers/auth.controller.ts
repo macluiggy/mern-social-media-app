@@ -7,7 +7,7 @@ import config from "../config/config";
 
 const signin: RequestHandler = async (req, res) => {
   try {
-    const { email, password, _id, name } = req.body; // destructuring the email and password from the request body
+    const { email, password } = req.body; // destructuring the email and password from the request body
     const user = await User.findOne({ email }); // find the user by email
     if (!user) return res.status(401).json({ error: "User not found" }); // if the user is not found
 
@@ -15,7 +15,8 @@ const signin: RequestHandler = async (req, res) => {
       // if tpassword dont match
       return res.status(401).json({ error: "Email and password don't match" });
 
-    const token = jwt.sign({ _id }, config.jwtSecret); // create a token with the user id and the secret
+    const token = jwt.sign({ _id: user._id }, config.jwtSecret); // create a token with the user id and the secret
+    // console.log(token);
 
     res.cookie("t", token, { expires: new Date(Date.now() + 9999) }); // set a cookie with the token for the user to use it in the client side
     user.hashed_password = undefined; // remove the password from the user object
@@ -45,7 +46,13 @@ const requireSignin = expressJwt({
 //   req: RequestWithAuth & RequestWithProfile,
 //   res: Response,
 //   next: NextFunction
-// ) => {};
+// ) => {
+//   const jwtToken = req.header("token");
+//   const payload = jwt.verify(jwtToken as string, config.jwtSecret);
+//   console.log(payload, "payload");
+//   req.auth = payload;
+//   next();
+// }; // por alguna razon esto da lo mismo que el de arriba
 
 const hasAuthorization = (
   req: RequestWithAuth & RequestWithProfile,
@@ -54,8 +61,7 @@ const hasAuthorization = (
 ) => {
   // req.auth was created by the requireSignin middleware after authenticating the user with the secret, the req.profile was created by the userById middleware in user.controller.ts, with this two, we first verify that the profile and the auth exits, if they do, we check that the profile._id is the same as the auth._id, if they are the same, we allow the user to continue, if they are not the same, we return an error
   console.log(req.auth, "auth");
-  const authorized =
-    req.profile && req.auth; /**&& req.profile._id == req.auth._id */
+  const authorized = req.profile && req.auth && req.profile._id == req.auth._id;
   if (!authorized)
     return res.status(403).json({ error: "User is not authorized" });
   next();
