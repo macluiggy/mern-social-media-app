@@ -48,6 +48,7 @@ type TValues = {
   error: string;
   redirectToProfile: boolean;
   userId?: string;
+  about: string;
 };
 export default function EditProfile({ match }) {
   const { card, title, textField, submit, error } = useStyles();
@@ -58,6 +59,7 @@ export default function EditProfile({ match }) {
     open: false,
     error: "",
     redirectToProfile: false,
+    about: "",
   });
   const jwt: { token: string } = auth.isAuthenticated()
     ? auth.returnUser()
@@ -125,6 +127,16 @@ export default function EditProfile({ match }) {
           className={textField}
           value={values.name}
           onChange={handleChange("name")}
+          margin="normal"
+        />
+        <TextField
+          id="multiline-flexible"
+          label="About"
+          multiline
+          rows="2"
+          value={values.about}
+          onChange={handleChange("about")}
+          className={textField}
           margin="normal"
         />
         <TextField

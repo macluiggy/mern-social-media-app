@@ -40,6 +40,7 @@ export default function Profile({ match }) {
     email: "",
     created: "",
     _id: "",
+    about: "",
   });
   const [redirectToSignin, setRedirectToSignin] = useState(false);
   const jwt: { token: string } = isAuthenticated()
@@ -99,7 +100,10 @@ export default function Profile({ match }) {
           <Divider />
           <ListItem>
             <ListItemText
-              primary={`Joined: ${new Date(user.created || "").toDateString()}`}
+              primary={user.about}
+              secondary={`Joined: ${new Date(
+                user.created || ""
+              ).toDateString()}`}
             />
           </ListItem>
         </List>

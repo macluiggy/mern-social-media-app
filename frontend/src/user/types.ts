@@ -10,6 +10,7 @@ export type TRead = (
   email: string;
   created: string;
   error?: any;
+  about: string;
 }>;
 
 export type TUpdate = (

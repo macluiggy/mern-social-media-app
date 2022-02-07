@@ -7,6 +7,7 @@ interface IUser {
   salt?: string;
   updated: Number;
   created: Date;
+  about: string;
 }
 
 interface InstanceMethods {
@@ -34,6 +35,7 @@ const UserSchema = new Schema<IUserDoc>({
   updated: Date, // the date is updated automatically
   hashed_password: { type: String, required: [true, "Password is required"] },
   salt: String,
+  about: { type: String, trim: true },
 });
 
 UserSchema.virtual("password")
