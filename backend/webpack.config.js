@@ -1,5 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
+const nodeExternals = require("webpack-node-externals");
+const CURRENT_WORKING_DIR = process.cwd();
 
 const rulesForTypeScript = {
   test: /\.tsx?$/,
@@ -8,7 +10,7 @@ const rulesForTypeScript = {
 };
 const rulesForBabel = {
   test: /\.m?js$/,
-  exclude: /(node_modules|bower_components)/,
+  exclude: /node_modules/,
   use: {
     loader: "babel-loader",
     options: {
@@ -17,11 +19,12 @@ const rulesForBabel = {
   },
 };
 module.exports = {
-  entry: "./src/index.ts",
+  entry: path.resolve(CURRENT_WORKING_DIR, "src/index.ts"),
   target: "node",
+  externals: [nodeExternals()],
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
+    extensions: [".ts", ".tsx", ".js"],
     fallback: {
       fs: false,
       tls: false,
@@ -46,6 +49,6 @@ module.exports = {
   plugins: [new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ })],
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(CURRENT_WORKING_DIR, "dist"),
   },
 };
