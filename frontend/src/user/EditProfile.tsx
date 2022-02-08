@@ -39,6 +39,9 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
     margin: "auto",
     marginBottom: spacing(2),
   },
+  input: {
+    display: "none",
+  },
 }));
 type TValues = {
   name: string;
@@ -51,7 +54,7 @@ type TValues = {
   about: string;
 };
 export default function EditProfile({ match }) {
-  const { card, title, textField, submit, error } = useStyles();
+  const { card, title, textField, submit, error, input } = useStyles();
   const [values, setValues] = useState<TValues>({
     name: "",
     password: "",
@@ -122,6 +125,12 @@ export default function EditProfile({ match }) {
         <Typography variant="h6" className={title}>
           Edit Profile
         </Typography>
+
+        <input
+          accept="image/*"
+          onChange={() => handleChange("photo")}
+          className={input}
+        />
         <TextField
           id="name"
           label="Name"
