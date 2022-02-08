@@ -47,6 +47,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
     marginLeft: "10px",
   },
 }));
+
 type TValues = {
   name: string;
   password: string;
@@ -56,7 +57,7 @@ type TValues = {
   redirectToProfile: boolean;
   userId?: string;
   about: string;
-  photo?: { name: string };
+  photo?: any;
 };
 export default function EditProfile({ match }) {
   const { card, title, textField, submit, error, input, filename } =
@@ -101,6 +102,13 @@ export default function EditProfile({ match }) {
       password: values.password,
       about: values.about,
     };
+    let userData = new FormData();
+    values.name && userData.append("name", values.name);
+    values.email && userData.append("email", values.email);
+    values.password && userData.append("password", values.password);
+    values.about && userData.append("about", values.about);
+    values.photo && userData.append("photo", values.photo);
+
     update({ userId: match.params.userId }, { t: jwt.token }, user).then(
       (data) => {
         const { error, _id: userId } = data;
@@ -121,8 +129,9 @@ export default function EditProfile({ match }) {
 
   const handleChange: THandleChange = (name) => (event) => {
     const target = event.target as HTMLInputElement;
-    const value = name === "photo" ? target.files[0] : target.value;
-    setValues({ ...values, error: "", [name]: target.value });
+    let file: File = (target.files as FileList)[0];
+    let value = name === "photo" ? file : target.value;
+    setValues({ ...values, error: "", [name]: value });
   };
 
   if (values.redirectToProfile)
@@ -133,7 +142,6 @@ export default function EditProfile({ match }) {
         <Typography variant="h6" className={title}>
           Edit Profile
         </Typography>
-
         <input
           accept="image/*"
           onChange={handleChange("photo")}
@@ -142,13 +150,14 @@ export default function EditProfile({ match }) {
           type="file"
         />
         <label htmlFor="icon-button-file">
-          <Button variant="contained" color="default">
+          <Button variant="contained" color="default" component="span">
             Upload <FileUpload />
           </Button>
         </label>
         <span className={filename}>
           {values.photo ? values.photo.name : ""}
         </span>
+        <br />
         <TextField
           id="name"
           label="Name"
