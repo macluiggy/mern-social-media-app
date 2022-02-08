@@ -8,6 +8,7 @@ import {
   Typography,
   Icon,
 } from "@material-ui/core";
+import { AddPhotoAlternate as FileUpload } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core";
 import auth from "../auth/auth-helper";
 import { read, update } from "./api-user";
@@ -42,6 +43,9 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
   input: {
     display: "none",
   },
+  filename: {
+    marginLeft: "10px",
+  },
 }));
 type TValues = {
   name: string;
@@ -52,9 +56,11 @@ type TValues = {
   redirectToProfile: boolean;
   userId?: string;
   about: string;
+  photo?: { name: string };
 };
 export default function EditProfile({ match }) {
-  const { card, title, textField, submit, error, input } = useStyles();
+  const { card, title, textField, submit, error, input, filename } =
+    useStyles();
   const [values, setValues] = useState<TValues>({
     name: "",
     password: "",
@@ -114,7 +120,9 @@ export default function EditProfile({ match }) {
   };
 
   const handleChange: THandleChange = (name) => (event) => {
-    setValues({ ...values, error: "", [name]: event.target.value });
+    const target = event.target as HTMLInputElement;
+    const value = name === "photo" ? target.files[0] : target.value;
+    setValues({ ...values, error: "", [name]: target.value });
   };
 
   if (values.redirectToProfile)
@@ -128,9 +136,19 @@ export default function EditProfile({ match }) {
 
         <input
           accept="image/*"
-          onChange={() => handleChange("photo")}
+          onChange={handleChange("photo")}
           className={input}
+          id="icon-button-file"
+          type="file"
         />
+        <label htmlFor="icon-button-file">
+          <Button variant="contained" color="default">
+            Upload <FileUpload />
+          </Button>
+        </label>
+        <span className={filename}>
+          {values.photo ? values.photo.name : ""}
+        </span>
         <TextField
           id="name"
           label="Name"

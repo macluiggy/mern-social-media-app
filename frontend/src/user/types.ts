@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, SyntheticEvent } from "react";
 
 export type TRead = (
   params: { userId: string },
@@ -43,6 +43,9 @@ export type TRemove = (
   };
   error?: any;
 }>;
+interface Files {
+  files: any[];
+}
 export type THandleChange = (
   name: string
-) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
+) => (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
