@@ -56,7 +56,7 @@ const update: TUpdate = async (params, credentials, user) => {
   try {
     let response = await fetch(`${path}/api/users/${params.userId}`, {
       method: "PUT",
-      body: JSON.stringify(user),
+      body: user,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

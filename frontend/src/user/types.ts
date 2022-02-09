@@ -16,11 +16,7 @@ export type TRead = (
 export type TUpdate = (
   params: { userId: string },
   credentials: { t: string },
-  user: {
-    name: string;
-    email: string;
-    password: string;
-  }
+  user: FormData
 ) => Promise<{
   _id: string;
   name: string;

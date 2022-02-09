@@ -101,7 +101,9 @@ export default function EditProfile({ match }) {
       email: values.email,
       password: values.password,
       about: values.about,
+      photo: values.photo,
     };
+
     let userData = new FormData();
     values.name && userData.append("name", values.name);
     values.email && userData.append("email", values.email);
@@ -109,7 +111,7 @@ export default function EditProfile({ match }) {
     values.about && userData.append("about", values.about);
     values.photo && userData.append("photo", values.photo);
 
-    update({ userId: match.params.userId }, { t: jwt.token }, user).then(
+    update({ userId: match.params.userId }, { t: jwt.token }, userData).then(
       (data) => {
         const { error, _id: userId } = data;
         if (data && error) {
@@ -128,8 +130,9 @@ export default function EditProfile({ match }) {
   };
 
   const handleChange: THandleChange = (name) => (event) => {
-    const target = event.target as HTMLInputElement;
-    let file: File = (target.files as FileList)[0];
+    let target = event.target as HTMLInputElement;
+    let files = target.files as FileList;
+    let file: File = files[0];
     let value = name === "photo" ? file : target.value;
     setValues({ ...values, error: "", [name]: value });
   };
