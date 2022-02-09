@@ -28,12 +28,22 @@ app.use(express.urlencoded({ extended: false }));
 //   })
 // );
 // app.use(bodyParser.json());
-
+app.use(helmet({}));
 app.use(cors({ credentials: true, origin: true })); //nunca te olvides de poner esto, si es que vas a usar las api de otro lado, osea de otro dominio o proxy, passing credentials: true, es para que el cliente pueda enviar datos al servidor cuando el modo de credenciales de la solicitud es 'include'
+// CORS configuration
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.setHeader("Cross-Origin-Resource-Policy", "same-site"); // esto sirve para permitir imagenes de un dominio diferente
+  next();
+});
 
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(compress()); // compresses response bodies for all requests
-app.use(helmet()); // helps you secure your Express apps by setting various HTTP headers
+// helps you secure your Express apps by setting various HTTP headers
 // sending the template
 app.get("/", (req, res) => {
   res.status(200).send(template());

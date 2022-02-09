@@ -70,6 +70,7 @@ export default function EditProfile({ match }) {
     error: "",
     redirectToProfile: false,
     about: "",
+    photo: "",
   });
   const jwt: { token: string } = auth.isAuthenticated()
     ? auth.returnUser()

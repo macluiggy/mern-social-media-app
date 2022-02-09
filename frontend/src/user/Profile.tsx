@@ -17,6 +17,9 @@ import {
 import { Edit, Person } from "@material-ui/icons";
 import { Redirect, Link } from "react-router-dom";
 import DeleteUser from "./DeleteUser";
+import { path } from "../config";
+// import defaultPhoto from "./../assets/images/profile-pic.png";
+// const defaultPhoto = require("./../assets/images/profile-pic.png");
 const { isAuthenticated } = auth;
 
 const useStyles = makeStyles(({ mixins: { gutters }, spacing, palette }) => ({
@@ -30,10 +33,15 @@ const useStyles = makeStyles(({ mixins: { gutters }, spacing, palette }) => ({
     marginTop: spacing(3),
     col: palette.text.primary,
   },
+  bigAvatar: {
+    width: 60,
+    height: 60,
+    margin: 10,
+  },
 }));
 
 export default function Profile({ match }) {
-  const { root, title } = useStyles();
+  const { root, title, bigAvatar } = useStyles();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({
     name: "",
@@ -68,8 +76,11 @@ export default function Profile({ match }) {
     };
   }, [match.params.userId]);
 
+  const photoUrl = user._id
+    ? `${path}/api/users/photo/${user._id}?${new Date().getTime()}`
+    : "";
   if (redirectToSignin) return <Redirect to="/signin" />;
-
+  console.log(photoUrl);
   return (
     <Paper className={root}>
       <Typography variant="h6" className={title}>
@@ -81,9 +92,7 @@ export default function Profile({ match }) {
         <List dense>
           <ListItem>
             <ListItemAvatar>
-              <Avatar>
-                <Person />
-              </Avatar>
+              <Avatar src={photoUrl} className={bigAvatar} />
             </ListItemAvatar>
             <ListItemText primary={user.name} secondary={user.email} />{" "}
             {auth.returnUser().user && auth.returnUser().user._id == user._id && (

@@ -5,7 +5,9 @@ import {
 import { Router } from "express";
 import {
   create,
+  defaultPhoto,
   list,
+  photo,
   read,
   remove,
   update,
@@ -15,6 +17,9 @@ import {
 const router = Router();
 
 router.route("/api/users").get(list).post(create);
+
+router.route("/api/users/photo/:userId").get(photo, defaultPhoto);
+router.route("/api/users/defaultphoto").get(defaultPhoto);
 
 router
   .route("/api/users/:userId")

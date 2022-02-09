@@ -5,6 +5,10 @@ import { RequestHandler, Response, Request, NextFunction } from "express";
 import { RequestWithProfile } from "../types";
 import formidable from "formidable";
 import fs from "fs";
+// const profileImage = require("./../../../frontend/src/assets/images/profile-pic.png");
+// const profileImage = require("./../images/profile-pic.png");
+// import profileImage from "./../../../frontend/src/assets/images/profile-pic.png";
+// import * as profileImage from "./../images/profile-pic.png";
 
 const create: RequestHandler = async (req, res, next) => {
   const { body } = req;
@@ -26,7 +30,9 @@ const create: RequestHandler = async (req, res, next) => {
 
 const list: RequestHandler = async (_, res) => {
   try {
-    const users = await User.find().select("name email updated created about"); // find all users, and only select the name, email, updated and created fields, this filter also will be applied when retrieving a single user by id
+    const users = await User.find().select(
+      "name email updated created about potho"
+    ); // find all users, and only select the name, email, updated and created fields, this filter also will be applied when retrieving a single user by id
     return res.json(users);
   } catch (error) {
     return res.status(400).json({
@@ -72,34 +78,70 @@ const read = (req: RequestWithProfile, res: Response) => {
 
 const update = async (req: RequestWithProfile, res: Response) => {
   let form = new formidable.IncomingForm();
-  form.keepExtensions = true;
+  // console.log(form);
+  form["keepExtensions"] = true;
   form.parse(req, async (err, fields, files) => {
     if (err)
       return res.status(400).json({ error: "Photo could not be uploaded" });
-    let user = req.profile;
+    let user: any = req.profile;
     user = extend(user, fields);
-  });
-  try {
-    let user = req.profile; // get the user from the request object
-    const { body } = req; // get the body from the request object
-    // update the user with the new values
-    extend(user, body); // extend the user with the new values, if a value in body already exists, it will be overwritten in the user object
-    console.log(req.body);
-    // user = Object.assign(user, body); // assign the new values to the user object
     // console.log(user);
+    // console.log(files);
+    // console.log(fields);
+    if (files.photo) {
+      // console.log(files.photo);
+      // console.log(fs.readFileSync(files["photo"]["filepath"]));
+      user.photo.data = fs.readFileSync(files["photo"]["filepath"]);
+      user.photo.contentType = files.photo["mimetype"];
+      // console.log(user);
+    }
+    try {
+      await user.save();
+      user.hashed_password = undefined;
+      user.salt = undefined;
+      return res.json(user);
+    } catch (error) {
+      return res.status(400).json({
+        error: dbErrorHandler.getErrorMessage(error),
+      });
+    }
+  });
+  // try {
+  //   let user = req.profile; // get the user from the request object
+  //   const { body } = req; // get the body from the request object
+  //   // update the user with the new values
+  //   extend(user, body); // extend the user with the new values, if a value in body already exists, it will be overwritten in the user object
+  //   console.log(req.body);
+  //   // user = Object.assign(user, body); // assign the new values to the user object
+  //   // console.log(user);
 
-    if (!user) return res.status(400).json({ error: "User not found" });
-    user.updated = Date.now();
-    const updatedUser = await user.save(); // this will only save the properties that are in the mongooose schema, so if you add a property c to a schema {a,b}
-    updatedUser.hashed_password = undefined;
-    // console.log(updatedUser);
-    updatedUser.salt = undefined;
-    return res.json(updatedUser);
-  } catch (error) {
-    return res.status(400).json({
-      error: dbErrorHandler.getErrorMessage(error),
-    });
+  //   if (!user) return res.status(400).json({ error: "User not found" });
+  //   user.updated = Date.now();
+  //   const updatedUser = await user.save(); // this will only save the properties that are in the mongooose schema, so if you add a property c to a schema {a,b}
+  //   updatedUser.hashed_password = undefined;
+  //   // console.log(updatedUser);
+  //   updatedUser.salt = undefined;
+  //   return res.json(updatedUser);
+  // } catch (error) {
+  //   return res.status(400).json({
+  //     error: dbErrorHandler.getErrorMessage(error),
+  //   });
+  // }
+};
+
+const photo = (req, res, next) => {
+  console.log("photo mi llave", req.profile);
+  if (req.profile.photo.data) {
+    res.set("Content-Type", req.profile.photo.contentType);
+    return res.send(req.profile.photo.data);
   }
+  next();
+};
+
+const defaultPhoto = (req, res) => {
+  console.log("default photo mi llave");
+  // return res.status(200).sendFile(process.cwd() + profileImage);
+  res.send("default photo");
 };
 
 const remove = async (req: RequestWithProfile, res: Response) => {
@@ -117,4 +159,4 @@ const remove = async (req: RequestWithProfile, res: Response) => {
   }
 };
 
-export { create, list, userById, read, remove, update }; // the order of exporting is not important
+export { create, list, userById, read, remove, update, photo, defaultPhoto }; // the order of exporting is not important

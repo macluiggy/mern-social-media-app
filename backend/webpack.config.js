@@ -18,6 +18,13 @@ const rulesForBabel = {
     },
   },
 };
+
+const rulesForFiles = {
+  test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
+  exclude: /node_modules/,
+  use: "file-loader",
+};
+
 module.exports = {
   entry: path.resolve(CURRENT_WORKING_DIR, "src/index.ts"),
   target: "node",
@@ -44,7 +51,7 @@ module.exports = {
     },
   },
   module: {
-    rules: [rulesForBabel, rulesForTypeScript],
+    rules: [rulesForBabel, rulesForTypeScript, rulesForFiles],
   },
   plugins: [new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ })],
   output: {

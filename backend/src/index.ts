@@ -10,4 +10,5 @@ app.listen(port, (/*err*/) => {
 
 export default app;
 // babel-node --extensions \".ts\" index.ts
+// babel-node --extensions \".ts\" src/index.ts
 // webpack --mode=development --config ./webpack.config.js && node ./dist/bundle.js
