@@ -1,5 +1,6 @@
 import { path } from "../config";
 import { TRead, TRemove, TUpdate } from "./types";
+
 const create = async (user) => {
   try {
     let response = await fetch(`${path}/api/users`, {

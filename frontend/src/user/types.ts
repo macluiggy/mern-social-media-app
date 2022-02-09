@@ -1,4 +1,4 @@
-import { ChangeEvent, SyntheticEvent } from "react";
+import { ChangeEvent, FieldsetHTMLAttributes, SyntheticEvent } from "react";
 
 export type TRead = (
   params: { userId: string },
@@ -44,4 +44,4 @@ interface Files {
 }
 export type THandleChange = (
   name: string
-) => (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+) => (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement | any>) => void;

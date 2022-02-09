@@ -130,10 +130,12 @@ export default function EditProfile({ match }) {
   };
 
   const handleChange: THandleChange = (name) => (event) => {
-    let target = event.target as HTMLInputElement;
-    let files = target.files as FileList;
-    let file: File = files[0];
-    let value = name === "photo" ? file : target.value;
+    // let target = event.target as HTMLInputElement;
+    // let files = event.target.files as FileList;
+    // let file: File = files[0];
+    // console.log(event, name);
+
+    let value = name === "photo" ? event.target.files[0] : event.target.value;
     setValues({ ...values, error: "", [name]: value });
   };
 

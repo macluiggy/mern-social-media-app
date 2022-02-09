@@ -3,6 +3,8 @@ import extend from "lodash/extend";
 import dbErrorHandler from "../helpers/dbErrorHandler";
 import { RequestHandler, Response, Request, NextFunction } from "express";
 import { RequestWithProfile } from "../types";
+import formidable from "formidable";
+import fs from "fs";
 
 const create: RequestHandler = async (req, res, next) => {
   const { body } = req;
@@ -69,6 +71,12 @@ const read = (req: RequestWithProfile, res: Response) => {
 };
 
 const update = async (req: RequestWithProfile, res: Response) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  form.parse(req, async (err, fields, files) => {
+    if (err)
+      return res.status(400).json({ error: "Photo could not be uploaded" });
+  });
   try {
     let user = req.profile; // get the user from the request object
     const { body } = req; // get the body from the request object
