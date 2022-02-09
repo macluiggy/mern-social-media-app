@@ -60,7 +60,6 @@ const update: TUpdate = async (params, credentials, user) => {
       body: user,
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
         Authorization: `Bearer ${credentials.t}`,
         // sosoterocafuertemacluiggy: "sosoterocafuertemacluiggy",
       },

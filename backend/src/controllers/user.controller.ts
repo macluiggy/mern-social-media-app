@@ -76,6 +76,8 @@ const update = async (req: RequestWithProfile, res: Response) => {
   form.parse(req, async (err, fields, files) => {
     if (err)
       return res.status(400).json({ error: "Photo could not be uploaded" });
+    let user = req.profile;
+    user = extend(user, fields);
   });
   try {
     let user = req.profile; // get the user from the request object
