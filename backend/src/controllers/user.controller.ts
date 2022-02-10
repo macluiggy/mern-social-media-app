@@ -31,7 +31,7 @@ const create: RequestHandler = async (req, res, next) => {
 const list: RequestHandler = async (_, res) => {
   try {
     const users = await User.find().select(
-      "name email updated created about potho"
+      "name email updated created about potho followers following"
     ); // find all users, and only select the name, email, updated and created fields, this filter also will be applied when retrieving a single user by id
     return res.json(users);
   } catch (error) {

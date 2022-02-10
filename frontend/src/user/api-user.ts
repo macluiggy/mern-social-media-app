@@ -89,4 +89,41 @@ const remove: TRemove = async (params, credentials) => {
   }
 };
 
-export { create, list, read, update, remove };
+const follow = async (params, credentials, followId) => {
+  try {
+    let response = await fetch(`${path}/api/users/follow`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${credentials.t}`,
+      },
+      body: JSON.stringify({ userId: params.userId, followId }),
+    });
+    const data = await response.json();
+    console.log("following", data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const unfollow = async (params, credentials, unfollowId) => {
+  try {
+    const response = await fetch(`${path}/api/users/unfollow`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${credentials.t}`,
+      },
+      body: JSON.stringify({ userId: params.userId, unfollowId }),
+    });
+    const data = await response.json();
+    console.log("unfollowing:", data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export { create, list, read, update, remove, follow, unfollow };
