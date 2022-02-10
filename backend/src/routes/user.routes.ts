@@ -12,6 +12,8 @@ import {
   photo,
   read,
   remove,
+  removeFollower,
+  removeFollowing,
   update,
   userById,
 } from "../controllers/user.controller";
@@ -24,7 +26,9 @@ router.route("/api/users/photo/:userId").get(photo, defaultPhoto);
 router.route("/api/users/defaultphoto").get(defaultPhoto);
 
 router.route("/api/users/follow").put(requireSignin, addFollowing, addFollower);
-router.route("/api/users/unfollow").put(requireSignin);
+router
+  .route("/api/users/unfollow")
+  .put(requireSignin, removeFollowing, removeFollower);
 
 router
   .route("/api/users/:userId")

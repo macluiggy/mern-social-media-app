@@ -162,13 +162,13 @@ const photo = (req, res, next) => {
   next();
 };
 
-const defaultPhoto = (req, res) => {
+const defaultPhoto: RequestHandler = (req, res) => {
   console.log("default photo mi llave");
   // return res.status(200).sendFile(process.cwd() + profileImage);
   res.send("default photo");
 };
 
-const addFollowing = async (req, res, next) => {
+const addFollowing: RequestHandler = async (req, res, next) => {
   try {
     await User.findOneAndUpdate(req.body.userId, {
       $push: { following: req.body.followId },
@@ -181,7 +181,7 @@ const addFollowing = async (req, res, next) => {
   }
 };
 
-const addFollower = async (req, res, next) => {
+const addFollower: RequestHandler = async (req, res) => {
   try {
     const result = await User.findOneAndUpdate(
       req.body.followId,
@@ -191,7 +191,8 @@ const addFollower = async (req, res, next) => {
       { new: true }
     )
       .populate("following", "_id name")
-      .populate("followers", "_id name");
+      .populate("followers", "_id name")
+      .exec();
     if (!result) return res.status(400).json({ error: "User not found" });
     result.hashed_password = undefined;
     result.salt = undefined;
@@ -203,6 +204,41 @@ const addFollower = async (req, res, next) => {
   }
 };
 
+const removeFollowing: RequestHandler = async (req, res, next) => {
+  try {
+    await User.findOneAndUpdate(req.body.userId, {
+      $pull: { following: req.body.unfollowId },
+    });
+    next();
+  } catch (error) {
+    return res.status(400).json({
+      error: dbErrorHandler.getErrorMessage(error),
+    });
+  }
+};
+
+const removeFollower: RequestHandler = async (req, res) => {
+  try {
+    const result = await User.findOneAndUpdate(
+      req.body.unfollowId,
+      {
+        $pull: { followers: req.body.userId },
+      },
+      { new: true }
+    )
+      .populate("following", "_id name")
+      .populate("followers", "_id name")
+      .exec();
+    if (!result) return res.status(400).json({ error: "User not found" });
+    result.hashed_password = undefined;
+    result.salt = undefined;
+    return res.json(result);
+  } catch (error) {
+    return res.status(400).json({
+      error: dbErrorHandler.getErrorMessage(error),
+    });
+  }
+};
 export {
   create,
   list,
@@ -214,4 +250,6 @@ export {
   defaultPhoto,
   addFollower,
   addFollowing,
+  removeFollower,
+  removeFollowing,
 }; // the order of exporting is not important
