@@ -48,7 +48,10 @@ const userById = async (
   id: any
 ) => {
   try {
-    const user = await User.findById(id); // find the user by id
+    const user = await User.findById(id)
+      .populate("following", "_id name") // specify that the user returned should have the "following" property populated with the "_id" and "name" of the user
+      .populate("followers", "_id name")
+      .exec(); // find the user by id
     // console.log(user, "this is from userById");
 
     if (!user) {
@@ -63,7 +66,10 @@ const userById = async (
   } catch (error) {
     console.log(error);
     return res.status(400).json({
-      error: dbErrorHandler.getErrorMessage(error) || error,
+      error:
+        dbErrorHandler.getErrorMessage(error) ||
+        "Could not retrieve user" ||
+        error,
     });
   }
 };
@@ -132,21 +138,6 @@ const update = async (req: RequestWithProfile, res: Response) => {
   // }
 };
 
-const photo = (req, res, next) => {
-  console.log("photo mi llave", req.profile);
-  if (req.profile.photo.data) {
-    res.set("Content-Type", req.profile.photo.contentType);
-    return res.send(req.profile.photo.data);
-  }
-  next();
-};
-
-const defaultPhoto = (req, res) => {
-  console.log("default photo mi llave");
-  // return res.status(200).sendFile(process.cwd() + profileImage);
-  res.send("default photo");
-};
-
 const remove = async (req: RequestWithProfile, res: Response) => {
   try {
     let user = req.profile;
@@ -162,4 +153,65 @@ const remove = async (req: RequestWithProfile, res: Response) => {
   }
 };
 
-export { create, list, userById, read, remove, update, photo, defaultPhoto }; // the order of exporting is not important
+const photo = (req, res, next) => {
+  console.log("photo mi llave", req.profile);
+  if (req.profile.photo.data) {
+    res.set("Content-Type", req.profile.photo.contentType);
+    return res.send(req.profile.photo.data);
+  }
+  next();
+};
+
+const defaultPhoto = (req, res) => {
+  console.log("default photo mi llave");
+  // return res.status(200).sendFile(process.cwd() + profileImage);
+  res.send("default photo");
+};
+
+const addFollowing = async (req, res, next) => {
+  try {
+    await User.findOneAndUpdate(req.body.userId, {
+      $push: { following: req.body.followId },
+    });
+    next();
+  } catch (error) {
+    return res.status(400).json({
+      error: dbErrorHandler.getErrorMessage(error),
+    });
+  }
+};
+
+const addFollower = async (req, res, next) => {
+  try {
+    const result = await User.findOneAndUpdate(
+      req.body.followId,
+      {
+        $push: { followers: req.body.userId },
+      },
+      { new: true }
+    )
+      .populate("following", "_id name")
+      .populate("followers", "_id name");
+    if (!result) return res.status(400).json({ error: "User not found" });
+    result.hashed_password = undefined;
+    result.salt = undefined;
+    return res.json(result);
+  } catch (error) {
+    return res.status(400).json({
+      error: dbErrorHandler.getErrorMessage(error),
+    });
+  }
+};
+
+export {
+  create,
+  list,
+  userById,
+  read,
+  remove,
+  update,
+  photo,
+  defaultPhoto,
+  addFollower,
+  addFollowing,
+}; // the order of exporting is not important

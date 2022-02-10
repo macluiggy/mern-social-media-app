@@ -1,4 +1,5 @@
-import { Schema, model, Document } from "mongoose";
+import mongoose, { Schema, model, Document } from "mongoose";
+import type { ObjectId } from "mongoose";
 import crypto from "crypto";
 interface IUser {
   name: string;
@@ -9,6 +10,8 @@ interface IUser {
   created: Date;
   about: string;
   photo: { data: BinaryData; contentType: string };
+  following: ObjectId[];
+  followers: ObjectId[];
 }
 
 interface InstanceMethods {
@@ -38,6 +41,8 @@ const UserSchema = new Schema<IUserDoc>({
   salt: String,
   about: { type: String, trim: true },
   photo: { data: Buffer, contentType: String },
+  following: [{ type: mongoose.Types.ObjectId, ref: "User" }],
+  followers: [{ type: mongoose.Types.ObjectId, ref: "User" }],
 });
 
 UserSchema.virtual("password")

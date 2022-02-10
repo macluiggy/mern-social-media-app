@@ -4,6 +4,8 @@ import {
 } from "../controllers/auth.controller";
 import { Router } from "express";
 import {
+  addFollower,
+  addFollowing,
   create,
   defaultPhoto,
   list,
@@ -20,6 +22,9 @@ router.route("/api/users").get(list).post(create);
 
 router.route("/api/users/photo/:userId").get(photo, defaultPhoto);
 router.route("/api/users/defaultphoto").get(defaultPhoto);
+
+router.route("/api/users/follow").put(requireSignin, addFollowing, addFollower);
+router.route("/api/users/unfollow").put(requireSignin);
 
 router
   .route("/api/users/:userId")
