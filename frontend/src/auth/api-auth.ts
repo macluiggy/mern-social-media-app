@@ -1,6 +1,7 @@
 import { path } from "../config";
 
 const signin = async (user) => {
+  console.log(user);
   try {
     const response = await fetch(`${path}/auth/signin`, {
       method: "POST",

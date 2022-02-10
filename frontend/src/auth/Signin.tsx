@@ -62,7 +62,8 @@ export default function Signin(props) {
     };
 
     signin(user).then((data: iUserSignIn) => {
-      // console.log(data, "from signin");
+      // console.log(user);
+      console.log(data, "from signin");
 
       if (data.error) {
         setValues({ ...values, error: data.error });
