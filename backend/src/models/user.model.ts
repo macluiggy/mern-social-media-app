@@ -8,7 +8,7 @@ interface IUser {
   updated: Number;
   created: Date;
   about: string;
-  photo: Buffer;
+  photo: { data: BinaryData; contentType: string };
 }
 
 interface InstanceMethods {

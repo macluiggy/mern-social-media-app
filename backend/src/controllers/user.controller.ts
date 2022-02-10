@@ -5,6 +5,7 @@ import { RequestHandler, Response, Request, NextFunction } from "express";
 import { RequestWithProfile } from "../types";
 import formidable from "formidable";
 import fs from "fs";
+import { Z_BINARY } from "zlib";
 // const profileImage = require("./../../../frontend/src/assets/images/profile-pic.png");
 // const profileImage = require("./../images/profile-pic.png");
 // import profileImage from "./../../../frontend/src/assets/images/profile-pic.png";
@@ -83,17 +84,21 @@ const update = async (req: RequestWithProfile, res: Response) => {
   form.parse(req, async (err, fields, files) => {
     if (err)
       return res.status(400).json({ error: "Photo could not be uploaded" });
-    let user: any = req.profile;
-    user = extend(user, fields);
-    // console.log(user);
-    // console.log(files);
-    // console.log(fields);
+    let user = req.profile;
+    // console.log(user); // this have the user data with the user data and maybe with the photo if it was already uploaded
+    extend(user, fields); // extend with simple string data values to update like name, email, etc.
+    // console.log(files); // this the photo data object extracted from the form data from the request object that is going to be uploaded
+    // console.log(fields) // this has the simple string data values to update like name, email, etc.
+    if (!user) return res.status(400).json({ error: "User not found" });
     if (files.photo) {
       // console.log(files.photo);
+      console.log(fields);
       // console.log(fs.readFileSync(files["photo"]["filepath"]));
+
+      // console.log(user, "user compa");
       user.photo.data = fs.readFileSync(files["photo"]["filepath"]);
       user.photo.contentType = files.photo["mimetype"];
-      // console.log(user);
+      // console.log(user, "user compa mutado");
     }
     try {
       await user.save();
@@ -130,7 +135,7 @@ const update = async (req: RequestWithProfile, res: Response) => {
 };
 
 const photo = (req, res, next) => {
-  console.log("photo mi llave", req.profile);
+  // console.log("photo mi llave", req.profile);
   if (req.profile.photo.data) {
     res.set("Content-Type", req.profile.photo.contentType);
     return res.send(req.profile.photo.data);
@@ -139,7 +144,7 @@ const photo = (req, res, next) => {
 };
 
 const defaultPhoto = (req, res) => {
-  console.log("default photo mi llave");
+  // console.log("default photo mi llave");
   // return res.status(200).sendFile(process.cwd() + profileImage);
   res.send("default photo");
 };
