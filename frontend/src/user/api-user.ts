@@ -88,8 +88,22 @@ const remove: TRemove = async (params, credentials) => {
     return console.log(error);
   }
 };
+type CallApiProps = (
+  params: { userId: string },
+  credentials: { t: string },
+  followOrUnfollowId: string
+) =>
+  | Promise<{
+      following: string[];
+      followers: string[];
+      _id: string;
+      name: string;
+      email: string;
+      created: string;
+    }>
+  | Promise<{ error: any }>;
 
-const follow = async (params, credentials, followId) => {
+const follow: CallApiProps = async (params, credentials, followId) => {
   try {
     let response = await fetch(`${path}/api/users/follow`, {
       method: "PUT",
@@ -108,7 +122,7 @@ const follow = async (params, credentials, followId) => {
   }
 };
 
-const unfollow = async (params, credentials, unfollowId) => {
+const unfollow: CallApiProps = async (params, credentials, unfollowId) => {
   try {
     const response = await fetch(`${path}/api/users/unfollow`, {
       method: "PUT",

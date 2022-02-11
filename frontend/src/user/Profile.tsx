@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import auth from "../auth/auth-helper";
 import { read } from "./api-user";
 import { makeStyles } from "@material-ui/core/styles";
@@ -56,7 +56,11 @@ type ValuesProps = {
   redirectToSignin: boolean;
   following: boolean;
 };
-export default function Profile({ match }) {
+
+type ProfileProps = {
+  match: { params: { userId: string } };
+};
+const Profile: FC<ProfileProps> = ({ match }) => {
   const { root, title, bigAvatar } = useStyles();
   const [loading, setLoading] = useState(true);
   // const [user, setUser] = useState({
@@ -111,7 +115,17 @@ export default function Profile({ match }) {
     };
   }, [match.params.userId]);
 
-  const checkFollow = (user) => {
+  type CheckFollowProps = (user: {
+    _id: string;
+    name: string;
+    email: string;
+    created: string;
+    error?: any;
+    about?: string;
+    following: string[];
+    followers: Array<{ _id: string; name: string }>;
+  }) => boolean;
+  const checkFollow: CheckFollowProps = (user) => {
     const match = user.followers.some((follower) => {
       console.log("follower:", follower);
       return follower._id == jwt.user._id;
@@ -192,4 +206,6 @@ export default function Profile({ match }) {
       )}
     </Paper>
   );
-}
+};
+
+export default Profile;

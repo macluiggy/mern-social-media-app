@@ -10,7 +10,9 @@ export type TRead = (
   email: string;
   created: string;
   error?: any;
-  about: string;
+  about?: string;
+  following: string[];
+  followers: Array<{ _id: string; name: string }>;
 }>;
 
 export type TUpdate = (

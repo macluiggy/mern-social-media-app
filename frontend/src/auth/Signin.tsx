@@ -19,6 +19,7 @@ import {
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { iUserSignIn } from "./types";
+import { THandleChange } from "../user/types";
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
   card: {
@@ -47,7 +48,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 }));
 
 type SignInProps = {
-  location: { state: {from:string} };
+  location: { state: { from: string } };
 };
 const Signin: FC<SignInProps> = (props) => {
   const { textField, submit, error, title, card } = useStyles();
@@ -78,7 +79,7 @@ const Signin: FC<SignInProps> = (props) => {
     });
   };
 
-  const handleChange = (name) => (event) => {
+  const handleChange: THandleChange = (name) => (event) => {
     setValues({ ...values, error: "", [name]: event.target.value });
   };
 
