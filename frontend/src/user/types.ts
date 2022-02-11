@@ -69,3 +69,5 @@ export type CallApiProps = (
   created: string;
   error: any;
 }>;
+
+export type CheckFollowProps = (user: User) => boolean;

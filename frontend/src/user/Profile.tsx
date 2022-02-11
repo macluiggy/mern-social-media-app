@@ -19,7 +19,7 @@ import { Redirect, Link } from "react-router-dom";
 import DeleteUser from "./DeleteUser";
 import { path } from "../config";
 import FollowProfileButton from "./FollowProfileButton";
-import { CallApiProps, User } from "./types";
+import { CallApiProps, CheckFollowProps } from "./types";
 // import defaultPhoto from "./../assets/images/profile-pic.png";
 // const defaultPhoto = require("./../assets/images/profile-pic.png");
 const { isAuthenticated } = auth;
@@ -116,7 +116,6 @@ const Profile: FC<ProfileProps> = ({ match }) => {
     };
   }, [match.params.userId]);
 
-  type CheckFollowProps = (user: User) => boolean;
   const checkFollow: CheckFollowProps = (user) => {
     const match = user.followers.some((follower) => {
       console.log("follower:", follower);
