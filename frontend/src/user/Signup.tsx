@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import { THandleChange } from "./types";
 
 interface IUser {
   name: string;
@@ -59,7 +60,7 @@ export default function Signup() {
     open: false,
     error: "",
   });
-  const handleChange = (name) => (event) => {
+  const handleChange: THandleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
   const clickSubmit = () => {

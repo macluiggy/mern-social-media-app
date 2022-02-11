@@ -3,7 +3,8 @@ import { Button } from "@material-ui/core";
 import { follow, unfollow } from "./api-user";
 
 type FollowProfileButtonProps = {
-  onButtonClick: any;
+  onButtonClick: Function;
+  following: boolean;
 };
 const FollowProfileButton: FC<FollowProfileButtonProps> = ({
   onButtonClick,
