@@ -11,8 +11,9 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import path from "path";
-// import x from '../../frontend/build'
+// import x from "../../frontend/build";
 const app = express();
+const CURRENT_WORKING_DIR = process.cwd();
 const { mongoUri } = config;
 // database connection
 mongoose.Promise = global.Promise;
@@ -46,7 +47,7 @@ app.use(function (req, res, next) {
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(compress()); // compresses response bodies for all requests
 // helps you secure your Express apps by setting various HTTP headers
-app.use("/build", express.static(path.join(__dirname, "../../frontend/build")));
+app.use(express.static(path.join(CURRENT_WORKING_DIR, "./../frontend/build")));
 
 // sending the template
 app.get("/", (req, res) => {
