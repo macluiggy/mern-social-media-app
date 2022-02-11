@@ -1,8 +1,14 @@
-import React from "react";
+import React, { FC } from "react";
 import { Button } from "@material-ui/core";
 import { follow, unfollow } from "./api-user";
 
-export default function FollowProfileButton({ onButtonClick, following }) {
+type FollowProfileButtonProps = {
+  onButtonClick: any;
+};
+const FollowProfileButton: FC<FollowProfileButtonProps> = ({
+  onButtonClick,
+  following,
+}) => {
   const followClick = () => {
     onButtonClick(follow);
   };
@@ -22,4 +28,6 @@ export default function FollowProfileButton({ onButtonClick, following }) {
       )}
     </div>
   );
-}
+};
+
+export default FollowProfileButton;

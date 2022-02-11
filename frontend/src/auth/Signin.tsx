@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { signin } from "./api-auth";
 import auth from "./auth-helper";
 import { Redirect } from "react-router-dom";
@@ -46,7 +46,10 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
   },
 }));
 
-export default function Signin(props) {
+type SignInProps = {
+  location: { state: {from:string} };
+};
+const Signin: FC<SignInProps> = (props) => {
   const { textField, submit, error, title, card } = useStyles();
   const [values, setValues] = useState({
     email: "",
@@ -131,4 +134,6 @@ export default function Signin(props) {
       </Card>
     </div>
   );
-}
+};
+
+export default Signin;

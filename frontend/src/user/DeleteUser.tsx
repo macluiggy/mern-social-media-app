@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import type { FC } from "react";
 import {
   IconButton,
   Button,
@@ -13,7 +14,11 @@ import auth from "../auth/auth-helper";
 import { remove } from "./api-user";
 import { Redirect } from "react-router-dom";
 
-export default function DeleteUser({ userId }) {
+type DeleteUserProps = {
+  userId: string;
+};
+
+const DeleteUser: FC<DeleteUserProps> = ({ userId }) => {
   const [open, setOpen] = useState(false);
   const [redirect, setRedirect] = useState(false);
 
@@ -62,4 +67,6 @@ export default function DeleteUser({ userId }) {
       </Dialog>
     </span>
   );
-}
+};
+
+export default DeleteUser;

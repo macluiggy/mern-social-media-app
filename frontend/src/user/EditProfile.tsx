@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import type { FC } from "react";
 import {
   Card,
   CardActions,
@@ -59,7 +60,14 @@ type TValues = {
   about: string;
   photo?: any;
 };
-export default function EditProfile({ match }) {
+type EditProfileProps = {
+  match: {
+    params: {
+      userId: string;
+    };
+  };
+};
+const EditProfile: FC<EditProfileProps> = ({ match }) => {
   const { card, title, textField, submit, error, input, filename } =
     useStyles();
   const [values, setValues] = useState<TValues>({
@@ -216,4 +224,6 @@ export default function EditProfile({ match }) {
       </CardActions>
     </Card>
   );
-}
+};
+
+export default EditProfile;

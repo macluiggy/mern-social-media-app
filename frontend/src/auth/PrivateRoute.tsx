@@ -1,9 +1,17 @@
 import React from "react";
+import type { FC } from "react";
 import { Route, Redirect } from "react-router-dom";
+import type { RouteComponentProps } from "react-router";
 import auth from "./auth-helper";
 const { isAuthenticated } = auth;
-
-export default function PrivateRoute({ component: Component, ...rest }) {
+interface PrivateRouteProps {
+  component: FC<{ match: any }>;
+  path: string;
+}
+const PrivateRoute: FC<PrivateRouteProps> = ({
+  component: Component,
+  ...rest
+}) => {
   return (
     <Route
       {...rest}
@@ -18,4 +26,6 @@ export default function PrivateRoute({ component: Component, ...rest }) {
       }
     />
   );
-}
+};
+
+export default PrivateRoute;
