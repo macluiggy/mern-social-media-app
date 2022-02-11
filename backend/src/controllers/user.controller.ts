@@ -84,8 +84,10 @@ const read = (req: RequestWithProfile, res: Response) => {
 
 const update = async (req: RequestWithProfile, res: Response) => {
   let form = new formidable.IncomingForm();
-  // console.log(form);
-  form["keepExtensions"] = true;
+
+  // console.log(form, "form");
+  form["options"].keepExtensions = true;
+  // console.log(form, "form mutado");
   form.parse(req, async (err, fields, files) => {
     if (err)
       return res.status(400).json({ error: "Photo could not be uploaded" });
@@ -96,8 +98,10 @@ const update = async (req: RequestWithProfile, res: Response) => {
     // console.log(fields) // this has the simple string data values to update like name, email, etc.
     if (files.photo) {
       // console.log(files.photo);
-      console.log(fields);
+      // console.log(fields);
       // console.log(fs.readFileSync(files["photo"]["filepath"]));
+      // console.log(files["photo"]["filepath"]);
+      // console.log(files.photo["mimetype"]);
 
       // console.log(user, "user compa");
       user.photo.data = fs.readFileSync(files["photo"]["filepath"]);
@@ -153,11 +157,13 @@ const remove = async (req: RequestWithProfile, res: Response) => {
   }
 };
 
-const photo = (req, res, next) => {
+const photo = (req: RequestWithProfile, res: Response, next: NextFunction) => {
   // console.log("photo mi llave", req.profile);
-  if (req.profile.photo.data) {
-    res.set("Content-Type", req.profile.photo.contentType);
-    return res.send(req.profile.photo.data);
+  const profile = req.profile!;
+  // if(!req.profile) return res.status(400).json({ error: "User not found" });
+  if (profile.photo.data) {
+    res.set("Content-Type", profile.photo.contentType);
+    return res.send(profile.photo.data);
   }
   next();
 };
