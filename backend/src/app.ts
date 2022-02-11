@@ -11,7 +11,6 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import path from "path";
-// import x from "../../frontend/build";
 const app = express();
 const CURRENT_WORKING_DIR = process.cwd();
 const { mongoUri } = config;
@@ -57,6 +56,8 @@ app.get("/", (req, res) => {
 app.use("/", indexRoute);
 app.use("/", userRoutes);
 app.use("/", authRoutes);
+
+// Catch unauthorised errors
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err.name === "UnauthorizedError")
     // this is the error name when express-jwt fails to authenticate a token
