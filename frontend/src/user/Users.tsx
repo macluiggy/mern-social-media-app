@@ -32,7 +32,7 @@ export default function Users() {
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
-    list(signal).then((data) => {
+    list(signal).then((data: any) => {
       if (data && data.error) return console.log(data.error);
       // console.log(data);
 

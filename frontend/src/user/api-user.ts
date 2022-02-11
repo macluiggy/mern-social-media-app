@@ -13,11 +13,12 @@ const create: CreateApiCallProps = async (user) => {
       },
     });
     return await response.json();
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    return { error: error.message };
   }
 };
-type ListApiCallProps = (signal: AbortSignal) => Promise<User[] | any>;
+type ListApiCallProps = (signal: AbortSignal) => Promise<User[]>;
 const list: ListApiCallProps = async (signal) => {
   try {
     let response = await fetch(`${path}/api/users`, {
@@ -50,8 +51,9 @@ const read: TRead = async (params, credentials, signal) => {
     // console.log(data);
 
     return data;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    return { error: error.message };
   }
 };
 
@@ -69,8 +71,9 @@ const update: TUpdate = async (params, credentials, user) => {
     const data = await response.json();
     // console.log(data);
     return data;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    return { error: error.message };
   }
 };
 
@@ -105,8 +108,9 @@ const follow: CallApiProps = async (params, credentials, followId) => {
     const data = await response.json();
     console.log("following", data);
     return data;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    return { error: error.message };
   }
 };
 
@@ -124,8 +128,9 @@ const unfollow: CallApiProps = async (params, credentials, unfollowId) => {
     const data = await response.json();
     console.log("unfollowing:", data);
     return data;
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    return { error: error.message };
   }
 };
 export { create, list, read, update, remove, follow, unfollow };
