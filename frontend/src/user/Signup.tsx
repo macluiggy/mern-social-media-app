@@ -60,6 +60,7 @@ export default function Signup() {
     open: false,
     error: "",
   });
+
   const handleChange: THandleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
