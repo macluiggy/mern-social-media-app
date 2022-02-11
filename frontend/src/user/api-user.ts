@@ -1,7 +1,8 @@
 import { path } from "../config";
-import { TRead, TRemove, TUpdate } from "./types";
+import { CallApiProps, TRead, TRemove, TUpdate, User } from "./types";
+import type { CreateApiCallProps } from "./types";
 
-const create = async (user) => {
+const create: CreateApiCallProps = async (user) => {
   try {
     let response = await fetch(`${path}/api/users`, {
       method: "POST",
@@ -16,16 +17,17 @@ const create = async (user) => {
     console.log(error);
   }
 };
-
-const list = async (signal) => {
+type ListApiCallProps = (signal: AbortSignal) => Promise<User[] | any>;
+const list: ListApiCallProps = async (signal) => {
   try {
     let response = await fetch(`${path}/api/users`, {
       method: "GET",
       signal: signal, // cancel request if signal is canceled
     });
     return await response.json();
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    return { error: error.message };
   }
 };
 
@@ -88,20 +90,6 @@ const remove: TRemove = async (params, credentials) => {
     return console.log(error);
   }
 };
-type CallApiProps = (
-  params: { userId: string },
-  credentials: { t: string },
-  followOrUnfollowId: string
-) =>
-  | Promise<{
-      following: string[];
-      followers: string[];
-      _id: string;
-      name: string;
-      email: string;
-      created: string;
-    }>
-  | Promise<{ error: any }>;
 
 const follow: CallApiProps = async (params, credentials, followId) => {
   try {
