@@ -10,6 +10,8 @@ import compress from "compression";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
+import path from "path";
+// import x from '../../frontend/build'
 const app = express();
 const { mongoUri } = config;
 // database connection
@@ -44,6 +46,8 @@ app.use(function (req, res, next) {
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(compress()); // compresses response bodies for all requests
 // helps you secure your Express apps by setting various HTTP headers
+app.use("/build", express.static(path.join(__dirname, "../../frontend/build")));
+
 // sending the template
 app.get("/", (req, res) => {
   res.status(200).send(template());
