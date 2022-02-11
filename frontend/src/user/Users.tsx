@@ -34,7 +34,7 @@ export default function Users() {
     const signal = abortController.signal;
     list(signal).then((data) => {
       if (data && data.error) return console.log(data.error);
-      console.log(data);
+      // console.log(data);
 
       setUsers(data);
       setLoading(false);

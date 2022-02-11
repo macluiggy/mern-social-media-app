@@ -98,7 +98,7 @@ const follow = async (params, credentials, followId) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${credentials.t}`,
       },
-      body: JSON.stringify({ userId: params.userId, followId }),
+      body: JSON.stringify({ userId: params.userId, followId: followId }),
     });
     const data = await response.json();
     console.log("following", data);
@@ -117,7 +117,7 @@ const unfollow = async (params, credentials, unfollowId) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${credentials.t}`,
       },
-      body: JSON.stringify({ userId: params.userId, unfollowId }),
+      body: JSON.stringify({ userId: params.userId, unfollowId: unfollowId }),
     });
     const data = await response.json();
     console.log("unfollowing:", data);

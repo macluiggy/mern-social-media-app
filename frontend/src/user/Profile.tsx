@@ -98,6 +98,7 @@ export default function Profile({ match }) {
         setValues({ ...values, redirectToSignin: true });
       } else {
         // setUser(data);
+        // console.log("data from read api call", data);
         let following = checkFollow(data);
         console.log("following:", following);
         setValues({ ...values, user: data, following: following });
@@ -112,6 +113,7 @@ export default function Profile({ match }) {
 
   const checkFollow = (user) => {
     const match = user.followers.some((follower) => {
+      console.log("follower:", follower);
       return follower._id == jwt.user._id;
     });
     console.log("match:", match);
@@ -128,6 +130,7 @@ export default function Profile({ match }) {
       },
       values.user._id
     ).then((data) => {
+      console.log("data from clickFollowButton", data);
       if (data.error) {
         console.log("data error from callApi", data);
         setValues({ ...values, error: data.error });

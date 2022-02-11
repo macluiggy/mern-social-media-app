@@ -154,7 +154,7 @@ const remove = async (req: RequestWithProfile, res: Response) => {
 };
 
 const photo = (req, res, next) => {
-  console.log("photo mi llave", req.profile);
+  // console.log("photo mi llave", req.profile);
   if (req.profile.photo.data) {
     res.set("Content-Type", req.profile.photo.contentType);
     return res.send(req.profile.photo.data);
@@ -163,14 +163,14 @@ const photo = (req, res, next) => {
 };
 
 const defaultPhoto: RequestHandler = (req, res) => {
-  console.log("default photo mi llave");
+  // console.log("default photo mi llave");
   // return res.status(200).sendFile(process.cwd() + profileImage);
   res.send("default photo");
 };
 
 const addFollowing: RequestHandler = async (req, res, next) => {
   try {
-    await User.findOneAndUpdate(req.body.userId, {
+    await User.findByIdAndUpdate(req.body.userId, {
       $push: { following: req.body.followId },
     });
     next();
@@ -183,7 +183,7 @@ const addFollowing: RequestHandler = async (req, res, next) => {
 
 const addFollower: RequestHandler = async (req, res) => {
   try {
-    const result = await User.findOneAndUpdate(
+    const result = await User.findByIdAndUpdate(
       req.body.followId,
       {
         $push: { followers: req.body.userId },
@@ -206,8 +206,8 @@ const addFollower: RequestHandler = async (req, res) => {
 
 const removeFollowing: RequestHandler = async (req, res, next) => {
   try {
-    await User.findOneAndUpdate(req.body.userId, {
-      $pull: { following: req.body.unfollowId },
+    await User.findByIdAndUpdate(req.body.userId, {
+      $pull: { following: req.body.unfollowId }, // remove all the following ids that match the unfollowId
     });
     next();
   } catch (error) {
@@ -219,7 +219,7 @@ const removeFollowing: RequestHandler = async (req, res, next) => {
 
 const removeFollower: RequestHandler = async (req, res) => {
   try {
-    const result = await User.findOneAndUpdate(
+    const result = await User.findByIdAndUpdate(
       req.body.unfollowId,
       {
         $pull: { followers: req.body.userId },
