@@ -1,6 +1,7 @@
 import { path } from "../config";
+import type { SigninProps } from "./types";
 
-const signin = async (user) => {
+const signin: SigninProps = async (user) => {
   console.log(user);
   try {
     const response = await fetch(`${path}/auth/signin`, {
@@ -13,8 +14,9 @@ const signin = async (user) => {
       body: JSON.stringify(user),
     });
     return await response.json();
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    return { error: error.message };
   }
 };
 

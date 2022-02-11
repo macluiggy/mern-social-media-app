@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { iUserSignIn } from "./types";
+// import { User } from "./types";
 import { THandleChange } from "../user/types";
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
@@ -61,11 +61,11 @@ const Signin: FC<SignInProps> = (props) => {
 
   const clickSubmit = () => {
     const user = {
-      email: values.email || undefined,
-      password: values.password || undefined,
+      email: values.email,
+      password: values.password,
     };
 
-    signin(user).then((data: iUserSignIn) => {
+    signin(user).then((data) => {
       // console.log(user);
       console.log(data, "from signin");
 

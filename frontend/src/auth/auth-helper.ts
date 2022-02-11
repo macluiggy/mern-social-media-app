@@ -1,7 +1,9 @@
 import { signout } from "./api-auth";
-import { iUserSignIn } from "./types";
+// import { iUserSignIn } from "./types";
+import type { User, ReturnedSigninProps } from "./types";
+
 const auth = {
-  authenticate(jwt: iUserSignIn, cb) {
+  authenticate(jwt: ReturnedSigninProps, cb: Function) {
     // console.log(jwt);
     /**token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDMxMjE4MTZ9.M2zL2MnGqOvFS6lPbQ3QxeHengi5YU-8d8GrCvWXXiM"
 user:
@@ -35,7 +37,7 @@ _id: "61e59ee3e46097a260807fc5" */
     }
     return { user: "not found" };
   },
-  clearJWT(cb) {
+  clearJWT(cb: Function) {
     if (typeof window !== undefined) sessionStorage.removeItem("jwt"); // if we are in the browser, remove the jwt from sessionStorage
     cb(); // call the callback to dictate what should happen after a successful sign-out.
     signout().then((data) => {

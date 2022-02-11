@@ -66,9 +66,9 @@ export default function Signup() {
   };
   const clickSubmit = () => {
     const user = {
-      name: values.name || undefined,
-      password: values.password || undefined,
-      email: values.email || undefined,
+      name: values.name,
+      password: values.password,
+      email: values.email,
     };
     create(user).then((data) => {
       if (data.error) {
