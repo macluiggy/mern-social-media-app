@@ -2,7 +2,7 @@ import dbErrorHandler from "../helpers/dbErrorHandler";
 import Post from "../models/post.model";
 import formidable from "formidable";
 import fs from "fs";
-import { PostById, RequestWithProfile } from "../types";
+import { RequestWithAuth, RequestWithPost, RequestWithProfile } from "../types";
 import { NextFunction, RequestHandler, Response } from "express";
 
 const create = async (req: RequestWithProfile, res: Response) => {
@@ -30,7 +30,12 @@ const create = async (req: RequestWithProfile, res: Response) => {
   });
 };
 
-const postById: PostById = async (req, res, next, id) => {
+const postById = async (
+  req: RequestWithPost,
+  res: Response,
+  next: NextFunction,
+  id: string
+) => {
   try {
     let post = await Post.findById(id).populate("postedBy", "_id name").exec();
     if (!post)
@@ -78,6 +83,17 @@ const listNewsFedd = async (req: RequestWithProfile, res: Response) => {
   }
 };
 
+const remove = async (req: RequestWithPost, res: Response) => {
+  let post = req.post;
+  try {
+    let deletedPost = await post!.remove();
+    return res.json(deletedPost);
+  } catch (error) {
+    return res.status(400).json({
+      error: dbErrorHandler.getErrorMessage(error),
+    });
+  }
+};
 const photo = (req: RequestWithProfile, res: Response, next: NextFunction) => {
   if (req.profile!.photo.data) {
     res.set("Content-Type", req.profile!.photo.contentType);
@@ -86,4 +102,17 @@ const photo = (req: RequestWithProfile, res: Response, next: NextFunction) => {
   next();
 };
 
-export { listNewsFedd, listByUser, create, photo, postById };
+const isPoster = (
+  req: RequestWithPost & RequestWithAuth,
+  res: Response,
+  next: NextFunction
+) => {
+  let isPoster = req.post && req.auth && req.post.postedBy._id == req.auth._id;
+  if (!isPoster)
+    return res.status(403).json({
+      error: "User is not authorized",
+    });
+  next();
+};
+
+export { listNewsFedd, listByUser, create, photo, postById, isPoster, remove };

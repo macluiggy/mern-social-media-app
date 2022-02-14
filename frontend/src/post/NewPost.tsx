@@ -73,14 +73,16 @@ const NewPost = ({ addUpdate }) => {
     let postData = new FormData();
     postData.append("text", values.text);
     postData.append("photo", values.photo);
-    create({ userId: jwt.token }, { t: jwt.token }, postData).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({ ...values, text: "", photo: "" });
-        addUpdate(data);
+    create({ userId: jwt.token }, { t: jwt.token }, postData).then(
+      (data: any) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setValues({ ...values, text: "", photo: "" });
+          addUpdate(data);
+        }
       }
-    });
+    );
   };
   return <div>NewPost</div>;
 };

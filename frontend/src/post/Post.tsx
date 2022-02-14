@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import type { FC } from "react";
 import {
   Card,
@@ -14,11 +14,14 @@ import {
   Delete as DeleteIcon,
   Favorite as FavoriteIcon,
   Comment as CommentIcon,
+  FavoriteBorder as FavoriteBorderIcon,
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import auth from "../auth/auth-helper";
 import { Post } from "./types";
+import Comments from "./Comments";
+import { remove } from "./api-post";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -51,21 +54,99 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type PostProps = { post: Post; removeUpdate: Function };
-const Post: FC<PostProps> = ({ post, removeUpdate }) => {
+type PostProps = { post: Post; onRemove: Function };
+const Post: FC<PostProps> = ({ post, onRemove }) => {
   const classes = useStyles();
+  const jwt = auth.returnUser();
+  const checkLike = (likes) => {
+    let match = likes.indexOf(jwt.user._id) !== -1;
+    return match;
+  };
+  const [values, setValues] = useState({
+    like: checkLike(post.likes),
+    likes: post.likes.length,
+    comments: post.comments,
+  });
+
+  const clickLike = () => {
+    let callApi;
+  };
+  const updateComments = (comments) => {
+    setValues({ ...values, comments });
+  };
+
+  const deletePost = () => {
+    remove({ postId: post._id }, { t: jwt.token }).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        onRemove(post);
+      }
+    });
+  };
   return (
     <Card className={classes.card}>
       <CardHeader
-        avatar={<Avatar src={`/api/users/photo/${post.postedBy._id}`} />}
+        avatar={<Avatar src={`/api/users/photo/${post._id}`} />}
         action={
           post.postedBy._id === auth.returnUser().user._id && (
-            <IconButton onClick={() =>}>
+            <IconButton onClick={deletePost}>
               <DeleteIcon />
             </IconButton>
           )
         }
-        
+        title={
+          <Link to={`/user/${post.postedBy._id}`}>{post.postedBy.name}</Link>
+        }
+        subheader={new Date(post.created).toDateString()}
+        className={classes.cardHeader}
+      />
+
+      <CardContent className={classes.cardContent}>
+        <Typography component="p" className={classes.text}>
+          {post.text}
+        </Typography>
+        {post.photo && (
+          <div className={classes.photo}>
+            <img src={`/api/posts/photo/${post._id}`} alt="photo" />
+          </div>
+        )}
+      </CardContent>
+      <CardActions>
+        {values.like ? (
+          <IconButton
+            onClick={clickLike}
+            className={classes.button}
+            aria-label="Like"
+            color="secondary"
+          >
+            <FavoriteIcon />
+          </IconButton>
+        ) : (
+          <IconButton
+            onClick={clickLike}
+            className={classes.button}
+            aria-label="Unlike"
+            color="secondary"
+          >
+            <FavoriteBorderIcon />
+          </IconButton>
+        )}{" "}
+        <span>{values.likes}</span>
+        <IconButton
+          className={classes.button}
+          aria-label="Comment"
+          color="secondary"
+        >
+          <CommentIcon />
+        </IconButton>
+        <span>{values.comments.length}</span>
+      </CardActions>
+      <Divider />
+      <Comments
+        postId={post._id}
+        comments={values.comments}
+        updateComments={updateComments}
       />
     </Card>
   );

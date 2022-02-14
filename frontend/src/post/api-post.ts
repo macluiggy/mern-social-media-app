@@ -1,5 +1,5 @@
 import { path } from "../config";
-import { Create, ListByUser, ListNewsFedd } from "./types";
+import { Create, ListByUser, ListNewsFedd, Remove } from "./types";
 
 const create: Create = async (params, credentials, post) => {
   try {
@@ -57,4 +57,22 @@ const listNewsFedd: ListNewsFedd = async (params, credentials, signal) => {
   }
 };
 
-export { listNewsFedd, listByUser, create };
+const remove: Remove = async (params, credentials) => {
+  try {
+    let response = await fetch(`${path}/api/posts/${params.postId}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${credentials.t}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return { error: error.message };
+  }
+};
+
+export { listNewsFedd, listByUser, create, remove };

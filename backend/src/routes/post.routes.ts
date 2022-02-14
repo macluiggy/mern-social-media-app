@@ -4,6 +4,8 @@ import {
   create,
   photo,
   postById,
+  isPoster,
+  remove,
 } from "../controllers/post.controller";
 import { Router } from "express";
 import { requireSignin } from "../controllers/auth.controller";
@@ -18,6 +20,8 @@ router.route("/api/posts/by/:postId").get(photo);
 router.route("/api/posts/by/:userId").get(requireSignin, listByUser);
 
 router.route("/api/posts/feed/:userId").get(requireSignin, listNewsFedd);
+
+router.route("/api/posts/:postId").delete(requireSignin, isPoster, remove);
 
 router.param("userId", userById);
 router.param("postId", postById);

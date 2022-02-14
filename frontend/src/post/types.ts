@@ -12,19 +12,26 @@ export type ListByUser = (
 ) => Promise<any>;
 
 export type Post = {
+  _id: string;
   text: string;
   photo: {
     data: BinaryData;
     contentType: string;
   };
-  likes: number;
+  likes: string[];
   comments: string;
   postedBy: User;
   created: Date;
+  error?: any;
 };
 
 export type Create = (
   params: { userId: string },
   credentials: { t: string | boolean },
   post: (Post & BodyInit) | FormData
-) => Promise<any>;
+) => Promise<Post>;
+
+export type Remove = (
+  params: { postId: string },
+  credentials: { t: string | boolean }
+) => Promise<Post>;
