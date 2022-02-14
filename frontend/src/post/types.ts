@@ -26,5 +26,5 @@ export type Post = {
 export type Create = (
   params: { userId: string },
   credentials: { t: string | boolean },
-  post: Post & BodyInit
+  post: (Post & BodyInit) | FormData
 ) => Promise<any>;

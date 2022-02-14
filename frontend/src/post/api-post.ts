@@ -57,4 +57,4 @@ const listNewsFedd: ListNewsFedd = async (params, credentials, signal) => {
   }
 };
 
-export { listNewsFedd, listByUser };
+export { listNewsFedd, listByUser, create };
