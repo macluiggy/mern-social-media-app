@@ -32,3 +32,5 @@ const PostSchema = new Schema<PostSchemaDoc>({
   postedBy: { type: mongoose.Types.ObjectId, ref: "User" },
   created: { type: Date, default: Date.now },
 });
+
+export default mongoose.model<PostSchemaDoc>("Post", PostSchema);

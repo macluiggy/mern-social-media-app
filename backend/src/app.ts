@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import indexRoute from "./routes/index.route";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
+import postRoutes from "./routes/post.routes";
 import config from "./config/config";
 import template from "./template";
 import cors from "cors";
@@ -56,6 +57,7 @@ app.get("/", (req, res) => {
 app.use("/", indexRoute);
 app.use("/", userRoutes);
 app.use("/", authRoutes);
+app.use("/", postRoutes);
 
 // Catch unauthorised errors
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
