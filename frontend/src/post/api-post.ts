@@ -1,6 +1,24 @@
 import { path } from "../config";
 import { ListNewsFedd } from "./types";
 
+const listByUser = async (params, credentials) => {
+  try {
+    let response = await fetch(`${path}/api/posts/by/${params.userId}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${credentials.t}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return { error: error.message };
+  }
+};
+
 const listNewsFedd: ListNewsFedd = async (params, credentials, signal) => {
   try {
     let response = await fetch(`${path}/api/posts/feed/${params.userId}`, {
@@ -12,7 +30,7 @@ const listNewsFedd: ListNewsFedd = async (params, credentials, signal) => {
         Authorization: `Bearer ${credentials.t}`,
       },
     });
-    const data = response.json();
+    const data = await response.json();
     return data;
   } catch (error: any) {
     console.log(error);
@@ -20,4 +38,4 @@ const listNewsFedd: ListNewsFedd = async (params, credentials, signal) => {
   }
 };
 
-export { listNewsFedd };
+export { listNewsFedd, listByUser };
