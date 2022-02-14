@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core";
 import { CardContent, Card, CardMedia, Typography } from "@material-ui/core";
 import unicornbikeImg from "./../assets/images/unicornbike.jpg";
+import FindPeople from "../user/FindPeople";
 import { Link } from "react-router-dom";
 // const unicornbikeImg = require("./../assets/images/unicornbike.jpg");
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +37,7 @@ export default function Home() {
       <CardContent>
         <Typography>Welcome to the MERN Skeleton home page.</Typography>
         {/* <Link to="/users">Users</Link> */}
+        {/* <FindPeople /> */}
       </CardContent>
     </Card>
   );

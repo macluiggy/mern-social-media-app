@@ -8,6 +8,7 @@ import {
   addFollowing,
   create,
   defaultPhoto,
+  findPeople,
   list,
   photo,
   read,
@@ -30,6 +31,7 @@ router
   .route("/api/users/unfollow")
   .put(requireSignin, removeFollowing, removeFollower);
 
+router.route("/api/users/findpeople/:userId").get(requireSignin, findPeople);
 router
   .route("/api/users/:userId")
   .get(requireSignin, read)

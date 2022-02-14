@@ -1,5 +1,6 @@
 import { ChangeEvent, FieldsetHTMLAttributes, SyntheticEvent } from "react";
 
+export type Follow = { _id: string; name: string };
 export type User = {
   _id: string;
   name: string;
@@ -7,8 +8,9 @@ export type User = {
   created: string;
   error?: any;
   about?: string;
-  following: string[];
-  followers: Array<{ _id: string; name: string }>;
+  updated?: string;
+  following: Follow[];
+  followers: Array<Follow>;
 };
 
 export type CreateApiCallProps = (user: {
@@ -49,9 +51,9 @@ export type TRemove = (
   };
   error?: any;
 }>;
-interface Files {
-  files: any[];
-}
+// interface Files {
+//   files: any[];
+// }
 export type THandleChange = (
   name: string
 ) => (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement | any>) => void;
@@ -60,14 +62,14 @@ export type CallApiProps = (
   params: { userId: string },
   credentials: { t: string },
   followOrUnfollowId: string
-) => Promise<{
-  following: string[];
-  followers: string[];
-  _id: string;
-  name: string;
-  email: string;
-  created: string;
-  error: any;
-}>;
+) => Promise<User>;
+
+export type FindPeople = (
+  params: { userId: string },
+  credentials: { t: string | boolean },
+  signal: AbortSignal
+) => Promise<User[]>;
 
 export type CheckFollowProps = (user: User) => boolean;
+
+export type ClickFollow = (user: User, index: number) => void;

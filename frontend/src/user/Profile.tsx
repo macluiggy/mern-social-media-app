@@ -19,10 +19,11 @@ import { Redirect, Link } from "react-router-dom";
 import DeleteUser from "./DeleteUser";
 import { path } from "../config";
 import FollowProfileButton from "./FollowProfileButton";
-import { CallApiProps, CheckFollowProps } from "./types";
+import { CallApiProps, CheckFollowProps, User } from "./types";
+import FollowGrid from "./FollowGrid";
 // import defaultPhoto from "./../assets/images/profile-pic.png";
 // const defaultPhoto = require("./../assets/images/profile-pic.png");
-const { isAuthenticated } = auth;
+// const { isAuthenticated } = auth;
 
 const useStyles = makeStyles(({ mixins: { gutters }, spacing, palette }) => ({
   root: gutters({
@@ -53,9 +54,10 @@ type UserProps = {
   followers: string[];
 };
 type ValuesProps = {
-  user: UserProps;
+  user: User;
   redirectToSignin: boolean;
   following: boolean;
+  error: string;
 };
 
 type ProfileProps = {
@@ -71,7 +73,7 @@ const Profile: FC<ProfileProps> = ({ match }) => {
   //   _id: "",
   //   about: "",
   // });
-  const [values, setValues] = useState<any>({
+  const [values, setValues] = useState<ValuesProps>({
     user: {
       following: [],
       followers: [],
@@ -84,17 +86,16 @@ const Profile: FC<ProfileProps> = ({ match }) => {
     },
     redirectToSignin: false,
     following: false,
+    error: "",
   });
   // const [redirectToSignin, setRedirectToSignin] = useState(false);
-  const jwt: { token: string; user: any } = isAuthenticated()
-    ? auth.returnUser()
-    : { token: "" };
+  const jwt = auth.returnUser();
 
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
     // console.log(jwt);
-    const t = jwt.token;
+    const t = jwt.token as string;
     read({ userId: match.params.userId }, { t }, signal).then((data) => {
       // console.log(data);
 
@@ -193,6 +194,7 @@ const Profile: FC<ProfileProps> = ({ match }) => {
               ).toDateString()}`}
             />
           </ListItem>
+          {/* <FollowGrid people={values.user.following} /> */}
         </List>
       )}
     </Paper>

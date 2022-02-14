@@ -245,6 +245,19 @@ const removeFollower: RequestHandler = async (req, res) => {
     });
   }
 };
+
+const findPeople = async (req: RequestWithProfile, res: Response) => {
+  let following = req.profile!.following;
+  following.push(req.profile!._id);
+  try {
+    let users = await User.find({ _id: { $nin: following } }).select("name"); // select the users which id is not in the following array
+    return res.json(users);
+  } catch (error) {
+    return res.status(400).json({
+      error: dbErrorHandler.getErrorMessage(error) || "Error finding people",
+    });
+  }
+};
 export {
   create,
   list,
@@ -258,4 +271,5 @@ export {
   addFollowing,
   removeFollower,
   removeFollowing,
+  findPeople
 }; // the order of exporting is not important

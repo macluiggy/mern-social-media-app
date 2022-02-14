@@ -1,5 +1,12 @@
 import { path } from "../config";
-import { CallApiProps, TRead, TRemove, TUpdate, User } from "./types";
+import {
+  CallApiProps,
+  FindPeople,
+  TRead,
+  TRemove,
+  TUpdate,
+  User,
+} from "./types";
 import type { CreateApiCallProps } from "./types";
 
 const create: CreateApiCallProps = async (user) => {
@@ -133,4 +140,27 @@ const unfollow: CallApiProps = async (params, credentials, unfollowId) => {
     return { error: error.message };
   }
 };
-export { create, list, read, update, remove, follow, unfollow };
+
+const findPeople: FindPeople = async (params, credentials, signal) => {
+  try {
+    let response = await fetch(
+      `${path}/api/users/findPeople/${params.userId}`,
+      {
+        method: "GET",
+        signal: signal, // cancel request if signal is canceled
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${credentials.t}`,
+          // sosoterocafuertemacluiggy: "sosoterocafuertemacluiggy",
+        },
+      }
+    );
+    const data = await response.json();
+    console.log("findPeople:", data);
+    return data;
+  } catch (error: any) {
+    return { error: error.message };
+  }
+};
+export { create, list, read, update, remove, follow, unfollow, findPeople };

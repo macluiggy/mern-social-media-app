@@ -31,11 +31,25 @@ _id: "61e59ee3e46097a260807fc5" */
     // parse method is the opposite of stringify
     else return false;
   },
-  returnUser(): any {
-    if (this.isAuthenticated()) {
-      return JSON.parse(sessionStorage.getItem("jwt") as string); // you can also use ! as sessionStorage.getItem("jwt")! to indicate that the value is not null
-    }
-    return { user: "not found" };
+  returnUser(): ReturnedSigninProps {
+    if (!this.isAuthenticated())
+      return {
+        token: "",
+        user: {
+          _id: "",
+          name: "",
+          email: "",
+          created: "",
+          error: "",
+          about: "",
+          updated: "",
+          following: [],
+          followers: [],
+        },
+        error: "",
+      };
+
+    return JSON.parse(sessionStorage.getItem("jwt") as string); // you can also use ! as sessionStorage.getItem("jwt")! to indicate that the value is not null
   },
   clearJWT(cb: Function) {
     if (typeof window !== undefined) sessionStorage.removeItem("jwt"); // if we are in the browser, remove the jwt from sessionStorage
