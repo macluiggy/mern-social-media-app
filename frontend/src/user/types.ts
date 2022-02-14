@@ -73,3 +73,5 @@ export type FindPeople = (
 export type CheckFollowProps = (user: User) => boolean;
 
 export type ClickFollow = (user: User, index: number) => void;
+
+export type LoadPosts = (userId: string) => void;

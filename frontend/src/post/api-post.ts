@@ -1,7 +1,26 @@
 import { path } from "../config";
-import { ListNewsFedd } from "./types";
+import { Create, ListByUser, ListNewsFedd } from "./types";
 
-const listByUser = async (params, credentials) => {
+const create: Create = async (params, credentials, post) => {
+  try {
+    let response = await fetch(`${path}/api/posts/new/${params.userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${credentials.t}`,
+      },
+      body: post,
+    });
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return { error: error.message };
+  }
+};
+
+const listByUser: ListByUser = async (params, credentials) => {
   try {
     let response = await fetch(`${path}/api/posts/by/${params.userId}`, {
       method: "GET",

@@ -19,8 +19,9 @@ import { Redirect, Link } from "react-router-dom";
 import DeleteUser from "./DeleteUser";
 import { path } from "../config";
 import FollowProfileButton from "./FollowProfileButton";
-import { CallApiProps, CheckFollowProps, User } from "./types";
+import { CallApiProps, CheckFollowProps, LoadPosts, User } from "./types";
 import FollowGrid from "./FollowGrid";
+import { listByUser } from "../post/api-post";
 // import defaultPhoto from "./../assets/images/profile-pic.png";
 // const defaultPhoto = require("./../assets/images/profile-pic.png");
 // const { isAuthenticated } = auth;
@@ -88,6 +89,7 @@ const Profile: FC<ProfileProps> = ({ match }) => {
     following: false,
     error: "",
   });
+  const [posts, setPosts] = useState<any[]>([]);
   // const [redirectToSignin, setRedirectToSignin] = useState(false);
   const jwt = auth.returnUser();
 
@@ -108,6 +110,7 @@ const Profile: FC<ProfileProps> = ({ match }) => {
         let following = checkFollow(data);
         console.log("following:", following);
         setValues({ ...values, user: data, following: following });
+        loadPosts(data._id);
         setLoading(false);
       }
     });
@@ -146,6 +149,23 @@ const Profile: FC<ProfileProps> = ({ match }) => {
     });
   };
 
+  const loadPosts: LoadPosts = (user) => {
+    listByUser({ userId: user }, { t: jwt.token }).then((data) => {
+      console.log("data from loadPosts", data);
+      if (data.error) {
+        console.log("data error from loadPosts", data.error);
+        // setValues({ ...values, error: data.error });
+      } else {
+        setPosts(data);
+      }
+    });
+  };
+  const removePost = (post) => {
+    const updatedPosts = posts;
+    const index = updatedPosts.indexOf(post);
+    updatedPosts.splice(index, 1);
+    setPosts(updatedPosts);
+  };
   const photoUrl = values.user._id
     ? `${path}/api/users/photo/${values.user._id}?${new Date().getTime()}`
     : "";

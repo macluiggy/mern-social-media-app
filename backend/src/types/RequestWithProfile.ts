@@ -1,5 +1,6 @@
 import { Request, NextFunction } from "express";
 import { IUserDoc } from "../models/user.model";
+import { PostSchemaDoc } from "../models/post.model";
 import type { Fields } from "formidable";
 export interface RequestWithProfile extends Request {
   profile?:

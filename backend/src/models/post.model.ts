@@ -1,16 +1,21 @@
 import mongoose, { Schema } from "mongoose";
 import type { Document } from "mongoose";
+import { IUserDoc } from "./user.model";
 
+// photo: { data: BinaryData; contentType: string };
 type PostSchemaProps = {
   text: string;
-  photo: { data: Buffer; contentType: string };
+  photo: {
+    data: Buffer;
+    contentType: String;
+  };
   likes: number;
   comments: string;
-  postedBy: { type: mongoose.Types.ObjectId; ref: "User" };
+  postedBy: IUserDoc;
   created: Date;
 };
 
-type PostSchemaDoc = PostSchemaProps & Document;
+export type PostSchemaDoc = PostSchemaProps & Document;
 // interface PostSchemaDoc extends PostSchemaProps, Document {}
 const PostSchema = new Schema<PostSchemaDoc>({
   text: {
