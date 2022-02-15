@@ -1,12 +1,20 @@
 import { path } from "../config";
-import { Create, ListByUser, ListNewsFedd, Remove } from "./types";
+import {
+  Comment,
+  Create,
+  Like,
+  ListByUser,
+  ListNewsFedd,
+  Remove,
+  Uncomment,
+  Unlike,
+} from "./types";
 
 const create: Create = async (params, credentials, post) => {
   try {
     let response = await fetch(`${path}/api/posts/new/${params.userId}`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: `Bearer ${credentials.t}`,
       },
@@ -74,5 +82,90 @@ const remove: Remove = async (params, credentials) => {
     return { error: error.message };
   }
 };
+const like: Like = async (params, credentials, postId) => {
+  try {
+    let response = await fetch(`${path}/api/posts/like`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${credentials.t}`,
+      },
+      body: JSON.stringify({ userId: params.userId, postId }),
+    });
+    let data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return { error: error.message };
+  }
+};
 
-export { listNewsFedd, listByUser, create, remove };
+const unlike: Unlike = async (params, credentials, postId) => {
+  try {
+    let response = await fetch(`${path}/api/posts/unlike`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${credentials.t}`,
+      },
+      body: JSON.stringify({ userId: params.userId, postId }),
+    });
+    let data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return { error: error.message };
+  }
+};
+
+const comment: Comment = async (params, credentials, postId, comment) => {
+  try {
+    let response = await fetch(`${path}/api/posts/comment/`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${credentials.t}`,
+      },
+      body: JSON.stringify({ userId: params.userId, postId, comment }),
+    });
+    const data = await response.json();
+    console.log(data, "from comment");
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return { error: error.message };
+  }
+};
+
+const uncomment: Uncomment = async (params, credentials, postId, comment) => {
+  try {
+    let response = await fetch(`${path}/api/posts/uncomment`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${credentials.t}`,
+      },
+      body: JSON.stringify({ userId: params.userId, postId, comment }),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return { error: error.message };
+  }
+};
+
+export {
+  listNewsFedd,
+  listByUser,
+  create,
+  remove,
+  like,
+  unlike,
+  comment,
+  uncomment,
+};

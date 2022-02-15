@@ -6,6 +6,10 @@ import {
   postById,
   isPoster,
   remove,
+  like,
+  unlike,
+  comment,
+  uncomment,
 } from "../controllers/post.controller";
 import { Router } from "express";
 import { requireSignin } from "../controllers/auth.controller";
@@ -20,6 +24,12 @@ router.route("/api/posts/by/:postId").get(photo);
 router.route("/api/posts/by/:userId").get(requireSignin, listByUser);
 
 router.route("/api/posts/feed/:userId").get(requireSignin, listNewsFedd);
+
+router.route("/api/posts/like").put(requireSignin, like);
+router.route("/api/posts/unlike").put(requireSignin, unlike);
+
+router.route("/api/posts/comment").put(requireSignin, comment);
+router.route("/api/posts/uncomment").put(requireSignin, uncomment);
 
 router.route("/api/posts/:postId").delete(requireSignin, isPoster, remove);
 

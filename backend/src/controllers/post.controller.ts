@@ -102,6 +102,40 @@ const photo = (req: RequestWithProfile, res: Response, next: NextFunction) => {
   next();
 };
 
+const like: RequestHandler = async (req, res) => {
+  try {
+    let result = await Post.findByIdAndUpdate(
+      req.body.postId,
+      {
+        $push: { likes: req.body.userId },
+      },
+      { new: true }
+    );
+    return res.json(result);
+  } catch (error) {
+    return res.status(400).json({
+      error: dbErrorHandler.getErrorMessage(error),
+    });
+  }
+};
+
+const unlike: RequestHandler = async (req, res) => {
+  try {
+    let result = await Post.findByIdAndUpdate(
+      req.body.postId,
+      {
+        $pull: { likes: req.body.userId },
+      },
+      { new: true }
+    );
+    return res.json(result);
+  } catch (error) {
+    return res.status(400).json({
+      error: dbErrorHandler.getErrorMessage(error),
+    });
+  }
+};
+
 const isPoster = (
   req: RequestWithPost & RequestWithAuth,
   res: Response,
@@ -115,4 +149,61 @@ const isPoster = (
   next();
 };
 
-export { listNewsFedd, listByUser, create, photo, postById, isPoster, remove };
+const comment: RequestHandler = async (req, res) => {
+  let comment = req.body.comment;
+  comment.postedBy = req.body.userId;
+  console.log(comment);
+  try {
+    let result = await Post.findByIdAndUpdate(
+      req.body.postId,
+      {
+        $push: { comments: comment },
+      },
+      { new: true }
+    )
+      .populate("comments.postedBy", "_id name") // from postedBy change its value to and object containing its _id and name
+      .populate("postedBy", "_id name") // add from postedBy with the id that contains, return the User with that id and add its name and _id to replace its value
+      .exec();
+    return res.json(result);
+  } catch (error) {
+    return res.status(400).json({
+      error: dbErrorHandler.getErrorMessage(error),
+    });
+  }
+};
+
+const uncomment: RequestHandler = async (req, res) => {
+  let comment = req.body.comment;
+  comment.postedBy = req.body.userId;
+  try {
+    let result = await Post.findByIdAndUpdate(
+      req.body.postId,
+      {
+        $pull: { comments: { _id: comment._id } },
+      },
+      { new: true }
+    )
+      .populate("comments.postedBy", "_id name") // from postedBy change its value to and object containing its _id and name
+      .populate("postedBy", "_id name") // add from postedBy with the id that contains, return the User with that id and add its name and _id to replace its value
+      .exec();
+    return res.json(result);
+  } catch (error) {
+    return res.status(400).json({
+      error: dbErrorHandler.getErrorMessage(error),
+    });
+  }
+};
+
+export {
+  listNewsFedd,
+  listByUser,
+  create,
+  photo,
+  postById,
+  isPoster,
+  remove,
+  like,
+  unlike,
+  comment,
+  uncomment,
+};

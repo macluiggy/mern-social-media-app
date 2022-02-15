@@ -109,7 +109,7 @@ const FindPeople = () => {
         </Typography>
         <List>
           {values.users.map((item, i) => {
-            console.log(item);
+            // console.log(item);
             return (
               <span key={i}>
                 <ListItem>

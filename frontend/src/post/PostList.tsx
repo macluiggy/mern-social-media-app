@@ -1,7 +1,14 @@
 import React from "react";
+import type { FC } from "react";
 import Post from "./Post";
+import type { Post as PostProps, RemovePost } from "./types";
 
-const PostList = ({ posts, removeUpdate }) => {
+type PostListProps = {
+  posts: PostProps[];
+  removeUpdate: RemovePost;
+};
+
+const PostList: FC<PostListProps> = ({ posts, removeUpdate }) => {
   return (
     <div style={{ marginTop: "24px" }}>
       {posts.map((item, i) => {

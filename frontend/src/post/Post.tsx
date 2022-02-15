@@ -21,7 +21,7 @@ import { Link } from "react-router-dom";
 import auth from "../auth/auth-helper";
 import { Post } from "./types";
 import Comments from "./Comments";
-import { remove } from "./api-post";
+import { like, remove, unlike } from "./api-post";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -69,7 +69,20 @@ const Post: FC<PostProps> = ({ post, onRemove }) => {
   });
 
   const clickLike = () => {
-    let callApi;
+    let callApi = values.like ? unlike : like;
+    callApi({ userId: jwt.user._id }, { t: jwt.token }, post._id).then(
+      (data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          setValues({
+            ...values,
+            like: !values.like,
+            likes: data.likes.length,
+          });
+        }
+      }
+    );
   };
   const updateComments = (comments) => {
     setValues({ ...values, comments });

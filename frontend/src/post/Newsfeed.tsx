@@ -5,6 +5,7 @@ import auth from "../auth/auth-helper";
 import PostList from "./PostList";
 import NewPost from "./NewPost";
 import { listNewsFedd } from "./api-post";
+import { RemovePost } from "./types";
 
 const useStyles = makeStyles((theme: any) => ({
   card: {
@@ -45,14 +46,14 @@ const Newsfeed = () => {
     return function cleanup() {
       abortController.abort();
     };
-  });
+  }, []);
   const addPost = (post) => {
     const updatedPosts = [...posts];
     updatedPosts.unshift(post);
     setPosts(updatedPosts);
   };
 
-  const removePost = (post) => {
+  const removePost: RemovePost = (post) => {
     const updatedPosts = [...posts];
     const index = updatedPosts.indexOf(post);
     updatedPosts.splice(index, 1);

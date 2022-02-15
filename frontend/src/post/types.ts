@@ -35,3 +35,45 @@ export type Remove = (
   params: { postId: string },
   credentials: { t: string | boolean }
 ) => Promise<Post>;
+
+export type Like = (
+  paramsxd: { userId: string },
+  credentials: { t: string },
+  postId: string
+) => Promise<Post>;
+
+export type Unlike = Like;
+
+export type RemovePost = (post: Post) => void;
+
+export type PostPopulated = {
+  _id: string;
+  text: string;
+  photo: {
+    data: BinaryData;
+    contentType: string;
+  };
+  likes: string[];
+  comments: Array<{
+    text: string;
+    created: Date;
+    postedBy: { _id: string; name: string };
+  }>;
+  postedBy: { _id: string; name: string };
+  created: Date;
+  error?: any;
+};
+
+export type Comment = (
+  paramsxd: { userId: string },
+  credentials: { t: string },
+  postId: string,
+  comment: { text: string }
+) => Promise<PostPopulated>;
+
+export type Uncomment = (
+  paramsxd: { userId: string },
+  credentials: { t: string },
+  postId: string,
+  comment: any
+) => Promise<PostPopulated>;

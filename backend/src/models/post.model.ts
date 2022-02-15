@@ -10,7 +10,7 @@ type PostSchemaProps = {
     contentType: String;
   };
   likes: number;
-  comments: string;
+  comments: Array<{ text: string; created: Date; postedBy: IUserDoc }>;
   postedBy: IUserDoc;
   created: Date;
 };
