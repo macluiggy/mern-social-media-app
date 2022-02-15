@@ -2,5 +2,5 @@
 
 <!-- This is a template for a fullstack app made completely with JavaScript -->
 
-[FRONTEND](https://mern-skeleton-frontend.netlify.app)
-[BACKEND](https://backend-social-media-app.herokuapp.com)
+[FRONTEND](https://mern-social-app.netlify.app/)
+[BACKEND](https://macluiggy-social-media-app.herokuapp.com/)
