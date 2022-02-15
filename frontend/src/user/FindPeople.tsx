@@ -106,7 +106,6 @@ const FindPeople = ({ size }) => {
       style={{
         overflowY: size < 600 ? "scroll" : "visible",
         maxHeight: "400px",
-        border: "1px solid #d0d0d0",
         width: size > 600 ? "100%" : "100vw",
       }}
     >

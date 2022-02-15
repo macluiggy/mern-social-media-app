@@ -63,7 +63,6 @@ const Newsfeed = ({ size }) => {
     <Card
       className={classes.card}
       style={{
-        border: "1px solid #d0d0d0",
         width: size > 600 ? "100%" : "100vw",
       }}
     >
