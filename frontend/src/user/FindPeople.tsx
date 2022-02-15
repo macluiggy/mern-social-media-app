@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: any) => ({
   },
 }));
 
-const FindPeople = () => {
+const FindPeople = ({ size }) => {
   const classes = useStyles();
   const [values, setValues] = useState<{
     users: User[];
@@ -102,7 +102,14 @@ const FindPeople = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        overflowY: size < 600 ? "scroll" : "visible",
+        height: "400px",
+        border: "1px solid #d0d0d0",
+        width: size > 600 ? "100%" : "100vw",
+      }}
+    >
       <Paper className={classes.root} elevation={4}>
         <Typography title="title" className={classes.title}>
           Who to follow

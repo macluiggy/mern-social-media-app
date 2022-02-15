@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import {
   CardContent,
@@ -47,6 +47,16 @@ const useStyles = makeStyles((theme) => ({
 export default function Home({ history }) {
   const classes = useStyles();
   const [defaultPage, setDefaultPage] = useState(false);
+  const [size, setSize] = useState(0);
+
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize(window.innerWidth);
+    }
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
 
   useEffect(() => {
     setDefaultPage(auth.isAuthenticated());
@@ -98,12 +108,19 @@ export default function Home({ history }) {
         </Grid>
       )}
       {defaultPage && (
-        <Grid container spacing={8}>
-          <Grid item xs={8} sm={7}>
-            <Newsfeed />
-          </Grid>
+        <Grid
+          container
+          spacing={8}
+          style={{
+            display: "flex",
+            flexDirection: size > 600 ? "row" : "column",
+          }}
+        >
           <Grid item xs={6} sm={5}>
-            <FindPeople />
+            <FindPeople size={size} />
+          </Grid>
+          <Grid item xs={8} sm={7}>
+            <Newsfeed size={size}/>
           </Grid>
         </Grid>
       )}

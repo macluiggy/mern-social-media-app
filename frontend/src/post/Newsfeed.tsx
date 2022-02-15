@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: any) => ({
   },
 }));
 
-const Newsfeed = () => {
+const Newsfeed = ({ size }) => {
   const classes = useStyles();
   const [posts, setPosts] = useState<any[]>([]);
   const jwt = auth.returnUser();
@@ -60,7 +60,13 @@ const Newsfeed = () => {
     setPosts(updatedPosts);
   };
   return (
-    <Card className={classes.card}>
+    <Card
+      className={classes.card}
+      style={{
+        border: "1px solid #d0d0d0",
+        width: size > 600 ? "100%" : "100vw",
+      }}
+    >
       <Typography className={classes.title}>News Feed</Typography>
       <Divider />
       <NewPost addUpdate={addPost} />
