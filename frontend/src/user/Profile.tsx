@@ -22,6 +22,7 @@ import FollowProfileButton from "./FollowProfileButton";
 import { CallApiProps, CheckFollowProps, LoadPosts, User } from "./types";
 import FollowGrid from "./FollowGrid";
 import { listByUser } from "../post/api-post";
+import ProfileTabs from "./ProfileTabs";
 // import defaultPhoto from "./../assets/images/profile-pic.png";
 // const defaultPhoto = require("./../assets/images/profile-pic.png");
 // const { isAuthenticated } = auth;
@@ -217,6 +218,11 @@ const Profile: FC<ProfileProps> = ({ match }) => {
           {/* <FollowGrid people={values.user.following} /> */}
         </List>
       )}
+      <ProfileTabs
+        user={values.user}
+        posts={posts}
+        removePostUpdate={removePost}
+      />
     </Paper>
   );
 };
