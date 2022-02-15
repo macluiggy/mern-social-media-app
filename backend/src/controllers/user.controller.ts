@@ -271,5 +271,5 @@ export {
   addFollowing,
   removeFollower,
   removeFollowing,
-  findPeople
+  findPeople,
 }; // the order of exporting is not important

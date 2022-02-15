@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core";
 import { create } from "./api-post";
 import { PhotoCamera } from "@material-ui/icons";
+import { path } from "../config";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,7 +93,7 @@ const NewPost = ({ addUpdate }) => {
     setValues({ ...values, [name]: value });
   };
   const photoURL = values.user._id
-    ? "/api/users/photo/" + values.user._id
+    ? `${path}/api/users/photo/${values.user._id}`
     : "/api/users/defaultphoto";
   return (
     <div className={classes.root}>

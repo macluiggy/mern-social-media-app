@@ -22,6 +22,7 @@ import auth from "../auth/auth-helper";
 import { Post } from "./types";
 import Comments from "./Comments";
 import { like, remove, unlike } from "./api-post";
+import { path } from "../config";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -100,7 +101,7 @@ const Post: FC<PostProps> = ({ post, onRemove }) => {
   return (
     <Card className={classes.card}>
       <CardHeader
-        avatar={<Avatar src={`/api/users/photo/${post._id}`} />}
+        avatar={<Avatar src={`${path}/api/users/photo/${post.postedBy._id}`} />}
         action={
           post.postedBy._id === auth.returnUser().user._id && (
             <IconButton onClick={deletePost}>
@@ -121,7 +122,7 @@ const Post: FC<PostProps> = ({ post, onRemove }) => {
         </Typography>
         {post.photo && (
           <div className={classes.photo}>
-            <img src={`/api/posts/photo/${post._id}`} alt="photo" />
+            <img src={`${path}/api/posts/photo/${post._id}`} alt="photo" />
           </div>
         )}
       </CardContent>

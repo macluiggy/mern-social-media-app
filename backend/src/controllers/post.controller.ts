@@ -52,6 +52,7 @@ const postById = async (
 };
 
 const listByUser = async (req: RequestWithProfile, res: Response) => {
+  // console.log(req);
   try {
     let posts = await Post.find({ postedBy: req.profile!._id }) // select only the posts of the current user
       .populate("comments.postedBy", "_id name") // return user info of the commenter
@@ -61,7 +62,7 @@ const listByUser = async (req: RequestWithProfile, res: Response) => {
     return res.json(posts);
   } catch (error) {
     return res.status(400).json({
-      error: dbErrorHandler.getErrorMessage(error),
+      error: dbErrorHandler.getErrorMessage(error) + "xdxd",
     });
   }
 };
@@ -94,12 +95,12 @@ const remove = async (req: RequestWithPost, res: Response) => {
     });
   }
 };
-const photo = (req: RequestWithProfile, res: Response, next: NextFunction) => {
-  if (req.profile!.photo.data) {
-    res.set("Content-Type", req.profile!.photo.contentType);
-    return res.send(req.profile!.photo.data);
+const photo = (req: RequestWithPost, res: Response) => {
+  // console.log(req);
+  if (req.post!.photo.data) {
+    res.set("Content-Type", req.post!.photo.contentType);
+    return res.send(req.post!.photo.data);
   }
-  next();
 };
 
 const like: RequestHandler = async (req, res) => {

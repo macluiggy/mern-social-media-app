@@ -7,7 +7,7 @@ type PostSchemaProps = {
   text: string;
   photo: {
     data: Buffer;
-    contentType: String;
+    contentType: string;
   };
   likes: number;
   comments: Array<{ text: string; created: Date; postedBy: IUserDoc }>;

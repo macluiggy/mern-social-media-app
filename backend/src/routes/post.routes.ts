@@ -19,7 +19,7 @@ const router = Router();
 
 router.route("/api/posts/new/:userId").post(requireSignin, create);
 
-router.route("/api/posts/by/:postId").get(photo);
+router.route("/api/posts/photo/:postId").get(photo);
 
 router.route("/api/posts/by/:userId").get(requireSignin, listByUser);
 

@@ -152,7 +152,7 @@ const Profile: FC<ProfileProps> = ({ match }) => {
 
   const loadPosts: LoadPosts = (user) => {
     listByUser({ userId: user }, { t: jwt.token }).then((data) => {
-      console.log("data from loadPosts", data);
+      // console.log("data from loadPosts", data);
       if (data.error) {
         console.log("data error from loadPosts", data.error);
         // setValues({ ...values, error: data.error });

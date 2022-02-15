@@ -39,6 +39,7 @@ const listByUser: ListByUser = async (params, credentials) => {
       },
     });
     const data = await response.json();
+    console.log(data, "from  listByUser");
     return data;
   } catch (error: any) {
     console.log(error);
