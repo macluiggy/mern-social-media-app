@@ -1,10 +1,10 @@
 import React from "react";
 import type { FC } from "react";
 import Post from "./Post";
-import type { Post as PostProps, RemovePost } from "./types";
+import type { Post as PostProps, PostPopulated, RemovePost } from "./types";
 
 type PostListProps = {
-  posts: PostProps[];
+  posts: PostPopulated[];
   removeUpdate: RemovePost;
 };
 

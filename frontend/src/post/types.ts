@@ -4,7 +4,7 @@ export type ListNewsFedd = (
   params: { userId: string },
   credentials: { t: string | boolean },
   signal: AbortSignal
-) => Promise<any>;
+) => Promise<PostPopulated[]>;
 
 export type ListByUser = (
   params: { userId: string },

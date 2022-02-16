@@ -5,7 +5,7 @@ import auth from "../auth/auth-helper";
 import PostList from "./PostList";
 import NewPost from "./NewPost";
 import { listNewsFedd } from "./api-post";
-import { RemovePost } from "./types";
+import { AddPost, PostPopulated, RemovePost } from "./types";
 
 const useStyles = makeStyles((theme: any) => ({
   card: {
@@ -27,18 +27,18 @@ const useStyles = makeStyles((theme: any) => ({
 
 const Newsfeed = ({ size }) => {
   const classes = useStyles();
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<PostPopulated[]>([]);
   const jwt = auth.returnUser();
 
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
     listNewsFedd({ userId: jwt.user._id }, { t: jwt.token }, signal).then(
-      (data) => {
+      (data: any) => {
         if (data.error) {
           console.log(data.error);
         } else {
-          setPosts(data);
+          setPosts(data.sort(() => Math.random() - 0.5));
         }
       }
     );
@@ -47,7 +47,7 @@ const Newsfeed = ({ size }) => {
       abortController.abort();
     };
   }, []);
-  const addPost = (post) => {
+  const addPost: AddPost = (post) => {
     const updatedPosts = [...posts];
     updatedPosts.unshift(post);
     setPosts(updatedPosts);

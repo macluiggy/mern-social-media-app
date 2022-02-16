@@ -19,7 +19,7 @@ import {
 import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import auth from "../auth/auth-helper";
-import { CheckLike, Post, UpdateComments } from "./types";
+import { CheckLike, Post, PostPopulated, UpdateComments } from "./types";
 import Comments from "./Comments";
 import { like, remove, unlike } from "./api-post";
 import { path } from "../config";
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type PostProps = { post: Post; onRemove: Function };
+type PostProps = { post: PostPopulated; onRemove: Function };
 const Post: FC<PostProps> = ({ post, onRemove }) => {
   const classes = useStyles();
   const jwt = auth.returnUser();
