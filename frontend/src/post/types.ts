@@ -77,3 +77,11 @@ export type Uncomment = (
   postId: string,
   comment: any
 ) => Promise<PostPopulated>;
+
+export type CheckLike = (likes: string[]) => boolean;
+
+export type HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => void;
+
+export type DeleteComment = (comment: {
+  text: string;
+}) => (event: React.MouseEventHandler<HTMLSpanElement>) => void;

@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { comment, uncomment } from "./api-post";
 import { Link } from "react-router-dom";
+import { DeleteComment, HandleChange } from "./types";
 
 const useStyles = makeStyles((theme) => ({
   cardHeader: {
@@ -43,7 +44,7 @@ const Comments = ({ postId, comments, updateComments }) => {
   const classes = useStyles();
   const [text, setText] = useState("");
   const jwt = auth.returnUser();
-  const handleChange = (event) => {
+  const handleChange: HandleChange = (event) => {
     setText(event.target.value);
   };
   const addComment = (event) => {
@@ -63,7 +64,7 @@ const Comments = ({ postId, comments, updateComments }) => {
     }
   };
 
-  const deleteComment = (comment) => (event) => {
+  const deleteComment: DeleteComment = (comment) => (event) => {
     uncomment({ userId: jwt.user._id }, { t: jwt.token }, postId, comment).then(
       (data) => {
         if (data.error) {
@@ -85,7 +86,7 @@ const Comments = ({ postId, comments, updateComments }) => {
           {new Date(item.created).toDateString()} |
           {auth.returnUser().user._id === item.postedBy._id && (
             <Icon
-              onClick={deleteComment(item)}
+              onClick={() => deleteComment(item)}
               className={classes.commentDelete}
             >
               delete
