@@ -143,7 +143,7 @@ const Comments: FC<CommentsProps> = ({ postId, comments, updateComments }) => {
             }
             title={commentBody(item)}
             className={classes.cardHeader}
-            key={i}
+            key={item.postedBy._id}
           />
         );
       })}
