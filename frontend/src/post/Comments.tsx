@@ -89,7 +89,7 @@ const Comments: FC<CommentsProps> = ({ postId, comments, updateComments }) => {
     );
   };
 
-  const commentBody:CommentBody = (item) => {
+  const commentBody: CommentBody = (item) => {
     return (
       <p className={classes.commentText}>
         <Link to={"/user/" + item.postedBy._id}>{item.postedBy.name}</Link>
