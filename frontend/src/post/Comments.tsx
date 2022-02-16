@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import auth from "../auth/auth-helper";
 import {
   CardHeader,
@@ -9,7 +9,14 @@ import {
 } from "@material-ui/core";
 import { comment, uncomment } from "./api-post";
 import { Link } from "react-router-dom";
-import { DeleteComment, HandleChange } from "./types";
+import {
+  AddComment,
+  CommentBody,
+  DeleteComment,
+  HandleChange,
+  Post,
+  UpdateComments,
+} from "./types";
 
 const useStyles = makeStyles((theme) => ({
   cardHeader: {
@@ -40,14 +47,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Comments = ({ postId, comments, updateComments }) => {
+type CommentsProps = {
+  postId: string;
+  comments: Post["comments"];
+  updateComments: UpdateComments;
+};
+const Comments: FC<CommentsProps> = ({ postId, comments, updateComments }) => {
   const classes = useStyles();
   const [text, setText] = useState("");
   const jwt = auth.returnUser();
   const handleChange: HandleChange = (event) => {
     setText(event.target.value);
   };
-  const addComment = (event) => {
+
+  const addComment: AddComment = (event) => {
     if (event.keyCode == 13 && event.target.value) {
       event.preventDefault();
       console.log(jwt, postId, text);
@@ -76,7 +89,7 @@ const Comments = ({ postId, comments, updateComments }) => {
     );
   };
 
-  const commentBody = (item) => {
+  const commentBody:CommentBody = (item) => {
     return (
       <p className={classes.commentText}>
         <Link to={"/user/" + item.postedBy._id}>{item.postedBy.name}</Link>

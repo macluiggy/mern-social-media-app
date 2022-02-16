@@ -19,7 +19,7 @@ import {
 import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import auth from "../auth/auth-helper";
-import { CheckLike, Post } from "./types";
+import { CheckLike, Post, UpdateComments } from "./types";
 import Comments from "./Comments";
 import { like, remove, unlike } from "./api-post";
 import { path } from "../config";
@@ -85,7 +85,8 @@ const Post: FC<PostProps> = ({ post, onRemove }) => {
       }
     );
   };
-  const updateComments = (comments) => {
+
+  const updateComments: UpdateComments = (comments) => {
     setValues({ ...values, comments });
   };
 

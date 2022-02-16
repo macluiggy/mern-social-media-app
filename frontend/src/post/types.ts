@@ -19,7 +19,11 @@ export type Post = {
     contentType: string;
   };
   likes: string[];
-  comments: string;
+  comments: {
+    text: string;
+    created: Date;
+    postedBy: { _id: string; name: string };
+  }[];
   postedBy: User;
   created: Date;
   error?: any;
@@ -85,3 +89,12 @@ export type HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => void;
 export type DeleteComment = (comment: {
   text: string;
 }) => (event: React.MouseEventHandler<HTMLSpanElement>) => void;
+
+export type AddComment = (
+  e: React.KeyboardEvent<HTMLDivElement> &
+    React.ChangeEvent<HTMLTextAreaElement>
+) => void;
+
+export type UpdateComments = (comments: Post["comments"]) => void;
+
+export type CommentBody = (item: Post["comments"][0]) => JSX.Element;
