@@ -1,13 +1,31 @@
-import React, { useState } from "react";
-import { AppBar, Typography, Tabs, Tab } from "@material-ui/core";
+import React, { FC, useState } from "react";
+import {
+  AppBar,
+  Typography,
+  Tabs,
+  Tab,
+  CircularProgress,
+} from "@material-ui/core";
 import FollowGrid from "./FollowGrid";
 import PostList from "../post/PostList";
+import { HandleChange, User } from "./types";
+import { Post } from "../post/types";
 
-const ProfileTabs = ({ removePostUpdate, user, posts }) => {
+type ProfileTabsProps = {
+  removePostUpdate: any;
+  user: User;
+  posts: Post[];
+  loading: boolean;
+};
+const ProfileTabs: FC<ProfileTabsProps> = ({
+  removePostUpdate,
+  user,
+  posts,
+  loading,
+}) => {
   console.log(posts, "from profiletabs");
   const [tab, setTab] = useState(0);
-
-  const handleChange = (event, value) => {
+  const handleChange: HandleChange = (event, value) => {
     setTab(value);
   };
   return (
@@ -26,17 +44,29 @@ const ProfileTabs = ({ removePostUpdate, user, posts }) => {
         </Tabs>
         {tab === 0 && (
           <TabContainer>
-            <PostList removeUpdate={removePostUpdate} posts={posts} />
+            {loading ? (
+              <CircularProgress style={{ position: "relative", left: "45%" }} />
+            ) : (
+              <PostList removeUpdate={removePostUpdate} posts={posts} />
+            )}
           </TabContainer>
         )}
         {tab === 1 && (
           <TabContainer>
-            <FollowGrid people={user.following} />
+            {loading ? (
+              <CircularProgress style={{ position: "relative", left: "45%" }} />
+            ) : (
+              <FollowGrid people={user.following} />
+            )}
           </TabContainer>
         )}
         {tab === 2 && (
           <TabContainer>
-            <FollowGrid people={user.followers} />
+            {loading ? (
+              <CircularProgress style={{ position: "relative", left: "45%" }} />
+            ) : (
+              <FollowGrid people={user.followers} />
+            )}
           </TabContainer>
         )}
       </AppBar>

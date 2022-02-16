@@ -98,3 +98,5 @@ export type AddComment = (
 export type UpdateComments = (comments: Post["comments"]) => void;
 
 export type CommentBody = (item: Post["comments"][0]) => JSX.Element;
+
+export type AddPost = (post: Post) => void;

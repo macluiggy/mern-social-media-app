@@ -58,6 +58,7 @@ const Signin: FC<SignInProps> = (props) => {
     error: "",
     redirectToReferrer: false,
   });
+  const [loading, setLoading] = useState(false);
 
   const clickSubmit = () => {
     const user = {
@@ -68,12 +69,14 @@ const Signin: FC<SignInProps> = (props) => {
     signin(user).then((data) => {
       // console.log(user);
       console.log(data, "from signin");
-
+      setLoading(true);
       if (data.error) {
         setValues({ ...values, error: data.error });
+        setLoading(false);
       } else {
         auth.authenticate(data, () => {
           setValues({ ...values, error: "", redirectToReferrer: true });
+          setLoading(false);
         });
       }
     });
@@ -129,7 +132,7 @@ const Signin: FC<SignInProps> = (props) => {
             onClick={clickSubmit}
             className={submit}
           >
-            Submit
+            {loading ? "Loading..." : "Submit"}
           </Button>
         </CardActions>
       </Card>

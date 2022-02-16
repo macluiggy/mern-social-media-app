@@ -16,6 +16,7 @@ import {
 import { create } from "./api-post";
 import { PhotoCamera } from "@material-ui/icons";
 import { path } from "../config";
+import { THandleChange } from "../user/types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,7 +89,7 @@ const NewPost = ({ addUpdate }) => {
       }
     );
   };
-  const handleChange = (name) => (event) => {
+  const handleChange: THandleChange = (name) => (event) => {
     const value = name === "photo" ? event.target.files[0] : event.target.value;
     setValues({ ...values, [name]: value });
   };

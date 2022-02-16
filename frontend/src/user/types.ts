@@ -75,3 +75,8 @@ export type CheckFollowProps = (user: User) => boolean;
 export type ClickFollow = (user: User, index: number) => void;
 
 export type LoadPosts = (userId: string) => void;
+
+export type HandleChange = (
+  event: React.ChangeEvent<{}>,
+  value: number
+) => void;

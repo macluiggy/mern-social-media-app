@@ -222,6 +222,7 @@ const Profile: FC<ProfileProps> = ({ match }) => {
         user={values.user}
         posts={posts}
         removePostUpdate={removePost}
+        loading={loading}
       />
     </Paper>
   );

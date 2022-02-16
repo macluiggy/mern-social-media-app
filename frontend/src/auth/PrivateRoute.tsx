@@ -4,6 +4,7 @@ import { Route, Redirect } from "react-router-dom";
 import type { RouteComponentProps } from "react-router";
 import auth from "./auth-helper";
 const { isAuthenticated } = auth;
+
 interface PrivateRouteProps {
   component: FC<{ match: any }>;
   path: string;
