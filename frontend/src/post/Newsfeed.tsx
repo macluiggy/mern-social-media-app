@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import { Card, Typography, Divider } from "@material-ui/core";
 import auth from "../auth/auth-helper";
@@ -25,7 +25,11 @@ const useStyles = makeStyles((theme: any) => ({
   },
 }));
 
-const Newsfeed = ({ size }) => {
+type NewsfeedProps = {
+  size: number;
+};
+
+const Newsfeed: FC<NewsfeedProps> = ({ size }) => {
   const classes = useStyles();
   const [posts, setPosts] = useState<PostPopulated[]>([]);
   const jwt = auth.returnUser();

@@ -9,7 +9,7 @@ export type ListNewsFedd = (
 export type ListByUser = (
   params: { userId: string },
   credentials: { t: string | boolean }
-) => Promise<any>;
+) => Promise<PostPopulated[]>;
 
 export type Post = {
   _id: string;

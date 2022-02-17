@@ -9,12 +9,12 @@ import {
 import FollowGrid from "./FollowGrid";
 import PostList from "../post/PostList";
 import { HandleChange, User } from "./types";
-import { Post } from "../post/types";
+import { Post, PostPopulated } from "../post/types";
 
 type ProfileTabsProps = {
   removePostUpdate: any;
   user: User;
-  posts: Post[];
+  posts: PostPopulated[];
   loading: boolean;
 };
 const ProfileTabs: FC<ProfileTabsProps> = ({
@@ -74,10 +74,14 @@ const ProfileTabs: FC<ProfileTabsProps> = ({
   );
 };
 
-const TabContainer = (props) => {
+type TabContainerProps = {
+  children: JSX.Element;
+};
+
+const TabContainer: FC<TabContainerProps> = ({ children }) => {
   return (
     <Typography component="div" style={{ padding: 8 * 2 }}>
-      {props.children}
+      {children}
     </Typography>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { FC, useEffect, useLayoutEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import {
   CardContent,
@@ -44,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home({ history }) {
+type HomeProps = { history: any };
+const Home: FC<HomeProps> = ({ history }) => {
   const classes = useStyles();
   const [defaultPage, setDefaultPage] = useState(false);
   const [size, setSize] = useState(0);
@@ -120,10 +121,12 @@ export default function Home({ history }) {
             <FindPeople size={size} />
           </Grid>
           <Grid item xs={8} sm={7}>
-            <Newsfeed size={size}/>
+            <Newsfeed size={size} />
           </Grid>
         </Grid>
       )}
     </div>
   );
-}
+};
+
+export default Home;

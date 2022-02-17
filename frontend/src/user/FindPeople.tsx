@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import {
   Paper,
@@ -43,7 +43,10 @@ const useStyles = makeStyles((theme: any) => ({
   },
 }));
 
-const FindPeople = ({ size }) => {
+type FindPeopleProps = {
+  size: number;
+};
+const FindPeople: FC<FindPeopleProps> = ({ size }) => {
   const classes = useStyles();
   const [values, setValues] = useState<{
     users: User[];

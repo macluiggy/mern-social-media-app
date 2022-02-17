@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import auth from "../auth/auth-helper";
 import {
   Card,
@@ -17,6 +17,7 @@ import { create } from "./api-post";
 import { PhotoCamera } from "@material-ui/icons";
 import { path } from "../config";
 import { THandleChange } from "../user/types";
+import { AddPost } from "./types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +63,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewPost = ({ addUpdate }) => {
+type NewPostProps = {
+  addUpdate: AddPost;
+};
+const NewPost: FC<NewPostProps> = ({ addUpdate }) => {
   const classes = useStyles();
   const [values, setValues] = useState({
     text: "",

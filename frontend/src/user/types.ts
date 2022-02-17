@@ -1,4 +1,5 @@
 import { ChangeEvent, FieldsetHTMLAttributes, SyntheticEvent } from "react";
+import { PostPopulated } from "../post/types";
 
 export type Follow = { _id: string; name: string };
 export type User = {
@@ -80,3 +81,5 @@ export type HandleChange = (
   event: React.ChangeEvent<{}>,
   value: number
 ) => void;
+
+export type RemovePost = (post_: PostPopulated) => void;

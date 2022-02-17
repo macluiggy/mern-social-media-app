@@ -23,6 +23,7 @@ import { CallApiProps, CheckFollowProps, LoadPosts, User } from "./types";
 import FollowGrid from "./FollowGrid";
 import { listByUser } from "../post/api-post";
 import ProfileTabs from "./ProfileTabs";
+import { PostPopulated, RemovePost } from "../post/types";
 // import defaultPhoto from "./../assets/images/profile-pic.png";
 // const defaultPhoto = require("./../assets/images/profile-pic.png");
 // const { isAuthenticated } = auth;
@@ -90,7 +91,7 @@ const Profile: FC<ProfileProps> = ({ match }) => {
     following: false,
     error: "",
   });
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<PostPopulated[]>([]);
   // const [redirectToSignin, setRedirectToSignin] = useState(false);
   const jwt = auth.returnUser();
 
@@ -151,7 +152,7 @@ const Profile: FC<ProfileProps> = ({ match }) => {
   };
 
   const loadPosts: LoadPosts = (user) => {
-    listByUser({ userId: user }, { t: jwt.token }).then((data) => {
+    listByUser({ userId: user }, { t: jwt.token }).then((data:any) => {
       // console.log("data from loadPosts", data);
       if (data.error) {
         console.log("data error from loadPosts", data.error);
@@ -161,7 +162,7 @@ const Profile: FC<ProfileProps> = ({ match }) => {
       }
     });
   };
-  const removePost = (post) => {
+  const removePost:RemovePost = (post) => {
     const updatedPosts = posts;
     const index = updatedPosts.indexOf(post);
     updatedPosts.splice(index, 1);
